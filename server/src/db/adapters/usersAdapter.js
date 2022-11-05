@@ -20,14 +20,26 @@ async function createUser(fields) {
             RETURNING *;
         `, Object.values(fields));
         
-        console.log("quah", user);
         return user;
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        throw error;
+    }
+}
+
+async function getAllUsers() {
+    try {
+        const {rows: users} = await client.query(`
+            SELECT * FROM users;
+        `);
+        return users;
+    } catch (error) {
+        console.error(error);
         throw error;
     }
 }
 
 module.exports = {
-    createUser
+    createUser,
+    getAllUsers
 }

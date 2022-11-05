@@ -1,11 +1,14 @@
-// grab our db client connection to use with our adapters
 const client = require('../client');
 
 module.exports = {
   // add your database adapter fns here
-  getAllUsers,
+  getAll,
 };
 
-async function getAllUsers() {
-  /* this adapter should fetch a list of users from your db */
+async function getAll() {
+  const {rows: users} = await client.query(`
+      SELECT users.*, contacts.* FROM users
+      JOIN contacts ON users.contact_id = contacts.id;
+  `);
+  return users;
 }

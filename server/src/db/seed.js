@@ -1,16 +1,21 @@
 const { client } = require(".");
-const { users } = require("../data/userData");
-const { createUser } = require("./adapters/usersAdapter");
+const { admins, users } = require("../data/userData");
+const { contacts } = require("../data/contactData");
+const { createUser, getAllUsers } = require("./adapters/usersAdapter");
+const { createContact, getAllContacts } = require("./adapters/contactsAdapter");
+
+
 
 async function deleteTables() {
-    client.query(`
+    await client.query(`
         DROP TABLE IF EXISTS users;
+        DROP TYPE IF EXISTS role;
         DROP TABLE IF EXISTS contacts;
     `);
 }
 
 async function createTables() {
-    client.query(`
+    await client.query(`
         CREATE TABLE contacts (
             id SERIAL PRIMARY KEY,
             address VARCHAR(255) NOT NULL,
@@ -18,11 +23,11 @@ async function createTables() {
         );
         `);
 
-        client.query(`
+        await client.query(`
         CREATE TYPE role AS ENUM ('customer', 'admin', 'guest');
         `);
 
-        client.query(`
+        await client.query(`
         CREATE TABLE users (
             id SERIAL PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
@@ -37,18 +42,46 @@ async function createTables() {
 }
 
 async function insertTestData() {
-    console.log("Inserting test users");
-    const newUser = await createUser(users[0]);
-    console.log(newUser);
+    contacts.map(async (contact, idx) => {
+        console.log("Inserting contacts");
+        const newContact = await createContact(contact);
+        const userWithContact = users[idx];
+        userWithContact.contact_id = newContact.id;
+        console.log("Inserting test users");
+        return await createUser(userWithContact);
+    })
+    await createUser(admins[0]);
+}
+
+async function testGetAllUsers() {
+    console.log("Getting all users.");
+    const users = await getAllUsers();
+    console.log(users);
+}
+
+async function testGetAllContacts(){
+    console.log("Getting all contacts.");
+    const contacts = await getAllContacts();
+    console.log(contacts);
 }
 
 async function seed() {
-    console.log("Deleting tables...");
-    await deleteTables();
-    console.log("Creating tables...");
-    await createTables();
-    await insertTestData();
-    console.log("Success!");
+    try {
+        client.connect();
+        console.log("Deleting tables...");
+        await deleteTables();
+        console.log("Creating tables...");
+        await createTables();
+        await insertTestData();
+        await testGetAllUsers();
+        await testGetAllContacts();
+        console.log("Success!");
+    } catch (error) {
+        console.error(error);
+        throw error;
+    } finally {
+        client.end();
+    }
 }
 
 seed();
