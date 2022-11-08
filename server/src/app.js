@@ -16,4 +16,11 @@ app.use((req, res, next) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
+app.use("/*", (req, res) => {
+  return res.status(404).json({
+    message: "Not found, but that's ok you can do it."
+  })
+}
+)
+
 module.exports = app;
