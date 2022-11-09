@@ -1,6 +1,6 @@
 const {
     getUserByEmail,
-} = require('../../db/models/user');
+} = require('../../../db/models/user');
 
 async function login(req, res, next){
     try {

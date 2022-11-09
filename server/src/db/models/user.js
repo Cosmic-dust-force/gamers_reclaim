@@ -2,7 +2,7 @@ const client = require('../client');
 
 const {
   getUserByEmailDb
-} = ('../adapters/usersAdapter')
+} = require('../adapters/usersAdapter');
 
 async function getAll() {
   const {rows: users} = await client.query(`

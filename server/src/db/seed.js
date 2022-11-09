@@ -1,7 +1,8 @@
+require('dotenv').config();
 const { client } = require(".");
 const { admins, users } = require("../data/userData");
 const { contacts } = require("../data/contactData");
-const { createUser, getAllUsers } = require("./adapters/usersAdapter");
+const { createUser, getAllUsers, getUserByEmailDb } = require("./adapters/usersAdapter");
 const { createContact, getAllContacts } = require("./adapters/contactsAdapter");
 
 
@@ -65,6 +66,12 @@ async function testGetAllContacts(){
     console.log(contacts);
 }
 
+async function testGetUserByEmail() {
+    console.log("Getting user by email: misty@gmail.com");
+    const misty = await getUserByEmailDb("misty@gmail.com");
+    console.log(misty);
+}
+
 async function seed() {
     try {
         client.connect();
@@ -75,6 +82,7 @@ async function seed() {
         await insertTestData();
         await testGetAllUsers();
         await testGetAllContacts();
+        await testGetUserByEmail();
         console.log("Success!");
     } catch (error) {
         console.error(error);

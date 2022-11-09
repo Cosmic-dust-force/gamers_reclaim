@@ -39,12 +39,13 @@ async function getAllUsers() {
     }
 }
 
-async function getUserByEmail(email) {
+async function getUserByEmailDb(email) {
     try {
         const {rows: [user]} = await client.query(`
             SELECT * FROM users
             WHERE email=$1;
-        `,[email])
+        `,[email]);
+        return user;
     } catch(error) {
         console.error(error);
         throw error;
@@ -54,5 +55,5 @@ async function getUserByEmail(email) {
 module.exports = {
     createUser,
     getAllUsers,
-    getUserByEmail
+    getUserByEmailDb
 }

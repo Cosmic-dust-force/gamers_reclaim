@@ -9,7 +9,8 @@
     "test-watch": "jest --watch",
     "watch": "nodemon src/server.js",
     "start": "node src/server.js",
-    "seed:watch": "nodemon src/db/seed.js"
+    "seed:watch": "nodemon src/db/seed.js",
+    "seed": "node src/db/seed.js"
   },
   "keywords": [],
   "author": "",
