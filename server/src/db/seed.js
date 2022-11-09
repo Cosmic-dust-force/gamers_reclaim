@@ -2,8 +2,9 @@ require('dotenv').config();
 const { client } = require(".");
 const { admins, users } = require("../data/userData");
 const { contacts } = require("../data/contactData");
-const { createUser, getAllUsers, getUserByEmailDb } = require("./adapters/usersAdapter");
+const { createUser, getAllUsers, getUserByEmailDb, getUserById } = require("./adapters/usersAdapter");
 const { createContact, getAllContacts } = require("./adapters/contactsAdapter");
+const { hashPassword } = require('../../security');
 
 
 
@@ -48,9 +49,13 @@ async function insertTestData() {
         const newContact = await createContact(contact);
         const userWithContact = users[idx];
         userWithContact.contact_id = newContact.id;
+        if (userWithContact.password) {
+            userWithContact.password = await hashPassword(userWithContact.password);
+        }
         console.log("Inserting test users");
         return await createUser(userWithContact);
     })
+    admins[0].password = await hashPassword(admins[0].password);
     await createUser(admins[0]);
 }
 
@@ -72,6 +77,12 @@ async function testGetUserByEmail() {
     console.log(misty);
 }
 
+async function testGetUserById() {
+    console.log("Getting user by id: 2");
+    const user = await getUserById(2);
+    console.log(user);
+}
+
 async function seed() {
     try {
         client.connect();
@@ -83,6 +94,7 @@ async function seed() {
         await testGetAllUsers();
         await testGetAllContacts();
         await testGetUserByEmail();
+        await testGetUserById();
         console.log("Success!");
     } catch (error) {
         console.error(error);

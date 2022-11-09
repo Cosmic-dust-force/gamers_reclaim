@@ -21,6 +21,14 @@ app.use("/*", (req, res) => {
     message: "Not found, but that's ok you can do it."
   })
 }
-)
+);
+
+app.use((err, req, res, next) => {
+  if (!err.errorCode) {
+    err.errorCode = 500;
+  }
+
+  return res.status(err.errorCode).json(err);
+})
 
 module.exports = app;

@@ -52,8 +52,25 @@ async function getUserByEmailDb(email) {
     }
 }
 
+async function getUserById(id) {
+    try {
+        const {rows: [user]} = await client.query(`
+            SELECT users.id, users.name, users.email, users.user_role, contacts.address, contacts.phone_number 
+            FROM users
+            LEFT JOIN contacts ON users.contact_id = contacts.id
+            WHERE users.id=$1;
+        `,[id]);
+
+        return user;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 module.exports = {
     createUser,
     getAllUsers,
-    getUserByEmailDb
+    getUserByEmailDb,
+    getUserById
 }
