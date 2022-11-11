@@ -1,7 +1,9 @@
+import Login from './Login';
+
 export default function Home() {
-  return (
+  return (  
     <div>
-      <h1>Temp Home</h1>
+      <Login />
     </div>
   );
 }

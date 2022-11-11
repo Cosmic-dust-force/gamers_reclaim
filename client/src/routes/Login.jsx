@@ -1,24 +1,28 @@
+import { Link } from 'react-router-dom';
 import { useState } from "react";
-import { TextBox, PrimaryButton, ErrorMessage } from "../../components";
+import { TextBox, PrimaryButton, ErrorMessage } from "../components";
+import useUsers from '../hooks/useUsers';
 
 export default function Login() {
-  const navigate = useNavigate();
+
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  
+  const { login, usersError } = useUsers();
 
   const handleFormSubmission = async (event) => {
     event.preventDefault();
-
-    try {
-
+    login(userEmail, userPassword);
   };
 
-  const handleNameChanged = (event) => {
-    const enteredName = event.target.value;
-    setName(enteredName);
+  const handleEmailChanged = (event) => {
+    const enteredEmail = event.target.value;
+    setUserEmail(enteredEmail);
   };
 
   const handlePasswordChanged = (event) => {
     const enteredPassword = event.target.value;
-    setPassword(enteredPassword);
+    setUserPassword(enteredPassword);
   };
 
   return (
@@ -28,7 +32,7 @@ export default function Login() {
       </h2>
 
       <div className="self-center">
-        {errorMessage && <ErrorMessage message={errorMessage} />}
+        {usersError && <ErrorMessage message={usersError} />}
       </div>
 
       <div className="flex justify-center">
@@ -37,7 +41,7 @@ export default function Login() {
           className="flex flex-col gap-4 lg:max-w-xl grow"
         >
           <TextBox
-            onChange={handleNameChanged}
+            onChange={handleEmailChanged}
             placeholder="User Name"
             required={true}
           />
