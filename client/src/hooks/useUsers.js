@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useState, useContext, useCallback } from "react";
+import { StateContext } from "../context/StateContext";
 import * as usersController from "../axios-services/users";
 
 function useUsers() {
-    const [usersError, setUsersError] = useState('');
+  const [usersError, setUsersError] = useState('');
+  const { setIsLoading } = useContext(StateContext);
 
-    async function login(email, password){
-        try {
-            const data = await usersController.login(email, password);
-            console.log("quah!", data.user);
-          } catch (error) {
-            setUsersError(error.message);
-          }
+  const login = useCallback(async (email, password) => {
+    console.log("qhay");
+    setIsLoading(true);
+
+    try {
+      const data = await usersController.login(email, password);
+    } catch (error) {
+      setUsersError(error.message);
     }
+  }, [setIsLoading]);
 
-    return {login, usersError};
+  setIsLoading(false)
+  return { login, usersError };
 }
 
 export default useUsers;
