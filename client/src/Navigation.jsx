@@ -5,11 +5,17 @@ import Header from "./Header";
 
 export default function Navigation() {
   const [navLinks, setNavLinks] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const navLinksSignedIn = [
-      { name: `Sign Out`, path: `/` },
+      {
+        name: `Sign Out`,
+        path: `/`,
+        onClick: () => {
+          setUser(null);
+        },
+      },
       { name: `Link1`, path: `/link1` },
       { name: `Link2`, path: `/link2` },
     ];

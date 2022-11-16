@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { passwordsDoMatch } = require("../../../../security");
+const { passwordsDoMatch, hashPassword } = require("../../../../security");
 const usersModel = require("../../../db/models/user");
 const {
   UserDoesNotExistError,
@@ -13,12 +13,14 @@ async function login(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const user = await usersModel.getByEmail(email);
+    const { password: storedPassword, ...user } = await usersModel.getByEmail(
+      email
+    );
     if (!user) {
       return next(UserDoesNotExistError(email));
     }
 
-    const isMatchingPassword = await passwordsDoMatch(password, user.password);
+    const isMatchingPassword = await passwordsDoMatch(password, storedPassword);
 
     if (!isMatchingPassword) {
       return next(PasswordDoesNotMatch());
@@ -29,7 +31,25 @@ async function login(req, res, next) {
       JWT_SECRET
     );
 
-    res.json({ token, user });
+    return res.json({ token, user });
+  } catch (error) {
+    console.error(error);
+    return next(UnexpectedServerError());
+  }
+}
+
+async function register(req, res, next) {
+  try {
+    const user = req.body;
+    user.password = await hashPassword(user.password);
+    const newUser = await usersModel.create(user);
+
+    const token = jwt.sign(
+      { id: newUser.id, name: newUser.name, userRole: newUser.userRole },
+      JWT_SECRET
+    );
+
+    return res.json({ token, newUser });
   } catch (error) {
     console.error(error);
     return next(UnexpectedServerError());
@@ -38,4 +58,5 @@ async function login(req, res, next) {
 
 module.exports = {
   login,
+  register,
 };

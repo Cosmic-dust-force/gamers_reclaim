@@ -3,12 +3,12 @@ import { useState } from "react";
 function getInitialState(key){
     try {
         const item = window.localStorage.getItem(key);
-        return item ? JSON.parse(item) : {};
+        return item ? JSON.parse(item) : null;
     } catch (error) {
         console.error(error);
     }
 
-    return {};
+    return null;
 }
 
 function useLocalStorage(key) {

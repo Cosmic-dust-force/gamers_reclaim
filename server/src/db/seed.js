@@ -2,7 +2,7 @@ require('dotenv').config();
 const { client } = require(".");
 const { admins, users } = require("../data/userData");
 const { contacts } = require("../data/contactData");
-const { createUser, getAllUsers, getUserByEmailDb, getUserById } = require("./adapters/usersAdapter");
+const { createUser, getAllUsers, getUserByEmail, getUserById } = require("./adapters/usersAdapter");
 const { createContact, getAllContacts } = require("./adapters/contactsAdapter");
 const { hashPassword } = require('../../security');
 
@@ -73,7 +73,7 @@ async function testGetAllContacts(){
 
 async function testGetUserByEmail() {
     console.log("Getting user by email: misty@gmail.com");
-    const misty = await getUserByEmailDb("misty@gmail.com");
+    const misty = await getUserByEmail("misty@gmail.com");
     console.log(misty);
 }
 

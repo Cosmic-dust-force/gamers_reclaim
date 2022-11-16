@@ -15,4 +15,14 @@ async function login(email, password) {
   }
 };
 
-export { login };
+async function register(user) {
+  try {
+    const serverResponse = await usersController.post(`register`, user);
+    return serverResponse.data;
+  } catch (error) {
+    console.error(error);
+    handleErrors(error);
+  }
+}
+
+export { login, register };

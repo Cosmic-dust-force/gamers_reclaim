@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { TextBox, PrimaryButton, ErrorMessage } from "../components";
-import useUsers from "../hooks/useUsers";
+import { TextBox, PrimaryButton, ErrorMessage } from "../../components";
+import useUsers from "../../hooks/useUsers";
 
 export default function Login() {
   const [userEmail, setUserEmail] = useState("");
@@ -41,7 +41,7 @@ export default function Login() {
         >
           <TextBox
             onChange={handleEmailChanged}
-            placeholder="User Name"
+            placeholder="User Email"
             required={true}
           />
 

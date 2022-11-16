@@ -17,7 +17,7 @@ async function createUser(fields) {
         const { rows: [ user ]} = await client.query(`
             INSERT INTO users (${insertColumns})
             VALUES (${insertValues})
-            RETURNING *;
+            RETURNING id, name, email, user_role, contact_id;
         `, Object.values(fields));
         
         return user;
@@ -39,7 +39,7 @@ async function getAllUsers() {
     }
 }
 
-async function getUserByEmailDb(email) {
+async function getUserByEmail(email) {
     try {
         const {rows: [user]} = await client.query(`
             SELECT * FROM users
@@ -71,6 +71,6 @@ async function getUserById(id) {
 module.exports = {
     createUser,
     getAllUsers,
-    getUserByEmailDb,
+    getUserByEmail,
     getUserById
 }

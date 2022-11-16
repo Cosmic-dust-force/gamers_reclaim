@@ -23,7 +23,24 @@ function useUsers() {
     [setIsLoading, setUser]
   );
 
-  return { login, usersError };
+  const register = useCallback(
+    async (user) => {
+      setIsLoading(true);
+
+      try {
+        const data = await usersController.register(user);
+        setUser(data);
+      } catch (error) {
+        setUsersError(error.message);
+      }
+      setIsLoading(false);
+    },
+    [setIsLoading, setUser]
+  );
+
+  return { login, register, usersError };
 }
+
+
 
 export default useUsers;

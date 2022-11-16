@@ -1,9 +1,7 @@
-import Login from './Login';
-
 export default function Home() {
-  return (  
+  return (
     <div>
-      <Login />
+      <h1>This is home.</h1>
     </div>
   );
 }

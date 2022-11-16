@@ -1,8 +1,9 @@
 const client = require('../client');
 
 const {
-  getUserByEmailDb
+  getUserByEmail, createUser
 } = require('../adapters/usersAdapter');
+const { createContact } = require('../adapters/contactsAdapter');
 
 async function getAll() {
   const {rows: users} = await client.query(`
@@ -13,7 +14,7 @@ async function getAll() {
 }
 
 async function getByEmail(email){
-  const dbUser = await getUserByEmailDb(email);
+  const dbUser = await getUserByEmail(email);
   if (!dbUser) {
     return;
   }
@@ -25,8 +26,25 @@ async function getByEmail(email){
   return modelUser; 
 }
 
+async function create(user){
+  
+  const {userRole, address, phoneNumber, ...dbUser} = user;
+
+  const userContact = {address, phoneNumber};
+
+  const { id: contactId } = await createContact(userContact);
+
+  dbUser.contact_id = contactId; 
+  dbUser.user_role = userRole; 
+
+  
+  const newUser = await createUser(dbUser);
+  return newUser;
+}
+
 module.exports = {
   // add your database adapter fns here
   getAll,
-  getByEmail
+  getByEmail,
+  create
 };
