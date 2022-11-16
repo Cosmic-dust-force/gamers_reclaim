@@ -1,13 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { TextBox, PrimaryButton, ErrorMessage } from "../components";
-import useUsers from '../hooks/useUsers';
+import useUsers from "../hooks/useUsers";
 
 export default function Login() {
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
 
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  
   const { login, usersError } = useUsers();
 
   const handleFormSubmission = async (event) => {

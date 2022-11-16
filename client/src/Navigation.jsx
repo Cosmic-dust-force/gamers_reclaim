@@ -1,14 +1,13 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Outlet } from "react-router-dom";
+import { UserContext } from "./context/UserContext";
 import Header from "./Header";
-import { useEffect, useState } from "react";
 
 export default function Navigation() {
-  const navigate = useNavigate();
   const [navLinks, setNavLinks] = useState([]);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    //Check if user in cache and switch links accordingly.
-
     const navLinksSignedIn = [
       { name: `Sign Out`, path: `/` },
       { name: `Link1`, path: `/link1` },
@@ -21,8 +20,10 @@ export default function Navigation() {
       { name: `Link2`, path: `/link2` },
     ];
 
-    setNavLinks(navLinksSignedOut);
-  }, [navigate]);
+    const navLinks = user ? navLinksSignedIn : navLinksSignedOut;
+
+    setNavLinks(navLinks);
+  }, [user]);
 
   return (
     <div className="flex flex-wrap min-h-[100vh] justify-center content-start bg-gray-400">

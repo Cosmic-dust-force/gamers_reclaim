@@ -6,20 +6,17 @@ import Navigation from "./Navigation";
 import Home from "./routes/Home";
 import { Loading } from "./components";
 
-
 function App() {
   const { isLoading } = useContext(StateContext);
 
   return (
     <>
-    {
-      isLoading && <Loading />
-    }
-    <Routes>
-      <Route path="/" element={<Navigation />}>
-        <Route index={true} element={<Home />} />
-      </Route>
-    </Routes>
+      {isLoading && <Loading />}
+      <Routes>
+        <Route path="/" element={<Navigation />}>
+          <Route index={true} element={<Home />} />
+        </Route>
+      </Routes>
     </>
   );
 }
