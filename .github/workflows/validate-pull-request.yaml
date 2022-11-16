@@ -2,12 +2,12 @@ name: Validate Pull Request
 on:
   pull_request:
     branches:
-      - 'main'
+      - "main"
     types:
-      - 'opened'
-      - 'edited'
+      - "opened"
+      - "edited"
       # triggered by new commits to an existing PR
-      - 'synchronize'
+      - "synchronize"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,6 +33,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Seed Database
-        run: npm run db:build
+        run: npm run seed
       - name: Test Suite
         run: npm run test
