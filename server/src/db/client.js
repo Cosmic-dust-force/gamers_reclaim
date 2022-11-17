@@ -18,9 +18,16 @@ if (process.env.CI) {
     password: "postgres",
     database: "postgres",
   });
+} else if (process.env.KASSI) {
+  client = new Client({
+    host: "localhost",
+    user: "kasboyd",
+    port: 5432,
+    password: process.env.DB_PASSWORD,
+    database: "gamers_reclaim"
+  });
 } else {
-  // local / heroku client config
   client = new Client(DB_URL);
 }
 
-module.exports = client;
+  module.exports = client;
