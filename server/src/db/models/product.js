@@ -22,3 +22,5 @@ async function getAll() {
 
   return modelProducts;
 }
+
+module.exports = { getAll };
