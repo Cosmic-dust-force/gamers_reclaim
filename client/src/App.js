@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { StateContext } from "./context/StateContext";
 import "./App.css";
 import Navigation from "./Navigation";
-import Home from "./routes/Home";
+import Home from "./routes/home/Home";
 import { Loading } from "./components";
 import Login from "./routes/auth/Login";
 import Register from "./routes/auth/Register";
