@@ -18,6 +18,8 @@ async function getAll() {
     modelProduct.inventoryQuantity = inventoryQuantity;
     modelProduct.categoryId = categoryId;
     modelProduct.imageUrl = imageUrl;
+
+    return modelProduct;
   });
 
   return modelProducts;
