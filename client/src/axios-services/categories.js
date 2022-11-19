@@ -1,9 +1,9 @@
-import { productsController } from "./gamers-reclaim-api";
+import { categoriesController } from "./gamers-reclaim-api";
 import { handleErrors } from "./common";
 
 async function getAll() {
   try {
-    const serverResponse = await productsController.get("");
+    const serverResponse = await categoriesController.get("");
 
     return serverResponse.data;
   } catch (error) {

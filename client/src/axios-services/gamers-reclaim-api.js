@@ -9,3 +9,7 @@ export const usersController = axios.create({
 export const productsController = axios.create({
   baseURL: API_URL + "products/",
 });
+
+export const categoriesController = axios.create({
+  baseURL: API_URL + "categories/",
+});
