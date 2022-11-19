@@ -17,7 +17,9 @@ const {
   populateCustomers,
   populateAdmins,
   populateProducts,
+  populateCategories,
 } = require("./tablePopulation");
+const { getAllCategories } = require("../adapters/categoriesAdapter");
 
 async function deleteTables() {
   await client.query(`
@@ -43,8 +45,16 @@ async function insertTestData() {
   await populateCustomers();
   console.log("Inserting admins");
   await populateAdmins();
+  console.log("Inserting test categories");
+  await populateCategories();
   console.log("Inserting test products");
   await populateProducts();
+}
+
+async function testGetAllCategories() {
+  console.log("Getting all categories.");
+  const categories = await getAllCategories();
+  console.log(categories);
 }
 
 async function testGetAllProducts() {
@@ -89,6 +99,7 @@ async function seed() {
     await testGetAllContacts();
     await testGetUserByEmail();
     await testGetUserById();
+    await testGetAllCategories();
     await testGetAllProducts();
     console.log("Success!");
   } catch (error) {

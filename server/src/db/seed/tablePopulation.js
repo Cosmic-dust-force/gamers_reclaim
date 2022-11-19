@@ -1,11 +1,13 @@
 const { client } = require("../");
 const { hashPassword } = require("../../../security");
 const { contacts } = require("../../data/contactData");
+const { categories } = require("../../data/categoryData");
 const { products } = require("../../data/productData");
 const { admins, users } = require("../../data/userData");
 const { createContact } = require("../adapters/contactsAdapter");
 const { createProduct } = require("../adapters/productsAdapter");
 const { createUser } = require("../adapters/usersAdapter");
+const { createCategory } = require("../adapters/categoriesAdapter");
 
 async function populateCustomers() {
   contacts.map(async (contact, idx) => {
@@ -24,6 +26,19 @@ async function populateAdmins() {
   await createUser(admins[0]);
 }
 
+async function populateCategories() {
+  const insertCategories = categories.map((category) => {
+    const modelCategory = {
+      id: category.id,
+      categoryName: category.category_name,
+    };
+
+    return createCategory(modelCategory);
+  });
+
+  await Promise.all(insertCategories);
+}
+
 async function populateProducts() {
   const insertProducts = products.map((product) => {
     const {
@@ -35,7 +50,8 @@ async function populateProducts() {
       description,
       brand,
     } = product;
-    createProduct({
+
+    return createProduct({
       productName,
       priceUsd,
       inventoryQuantity,
@@ -45,7 +61,13 @@ async function populateProducts() {
       imageUrl,
     });
   });
+
   await Promise.all(insertProducts);
 }
 
-module.exports = { populateCustomers, populateAdmins, populateProducts };
+module.exports = {
+  populateCustomers,
+  populateAdmins,
+  populateCategories,
+  populateProducts,
+};
