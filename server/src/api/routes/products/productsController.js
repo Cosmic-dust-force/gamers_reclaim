@@ -1,4 +1,5 @@
 const productsModel = require("../../../db/models/product");
+const { UnexpectedServerError } = require("../../errors");
 
 async function getAllProducts(req, res, next) {
   try {
