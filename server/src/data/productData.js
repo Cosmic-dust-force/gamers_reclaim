@@ -1,3 +1,6 @@
+const { BASE_URL = "http://localhost:4000/product_images" } = process.env;
+console.log("quah", BASE_URL);
+
 const products = [
   {
     product_name: "Magma Red CUH-ZCT2U DualShock 4 Wireless Controller",
@@ -6,7 +9,7 @@ const products = [
     description: "Wireless Controller for PlayStation 4 - Magma Red",
     brand: "Sony",
     category_id: 2,
-    image_url: "",
+    image_url: `${BASE_URL}/Black_QAU-00022_Wireless_Controller.jpg`,
   },
   {
     product_name: "Jet Black CUH-ZCT2 DualShock 4 Wireless Controller",
