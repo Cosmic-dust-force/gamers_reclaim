@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
@@ -8,7 +8,9 @@ const app = express();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+
 app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/api", require("./api/api"));
 
@@ -18,10 +20,9 @@ app.use((req, res, next) => {
 
 app.use("/*", (req, res) => {
   return res.status(404).json({
-    message: "Not found, but that's ok you can do it."
-  })
-}
-);
+    message: "Not found, but that's ok you can do it.",
+  });
+});
 
 app.use((err, req, res, next) => {
   if (!err.errorCode) {
@@ -29,6 +30,6 @@ app.use((err, req, res, next) => {
   }
 
   return res.status(err.errorCode).json(err);
-})
+});
 
 module.exports = app;
