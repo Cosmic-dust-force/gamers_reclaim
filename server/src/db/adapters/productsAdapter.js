@@ -51,4 +51,20 @@ async function getAllProducts() {
   }
 }
 
-module.exports = { createProduct, getAllProducts };
+async function getAllProductsWithCategory() {
+  try {
+    const { rows: products } = await client.query(`
+        SELECT products.* , categories.category_name 
+        FROM products
+        JOIN categories
+        ON products.category_id = categories.id;
+        `);
+
+    return products;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+module.exports = { createProduct, getAllProducts, getAllProductsWithCategory };
