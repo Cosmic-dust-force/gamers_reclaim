@@ -8,6 +8,7 @@ import { Loading } from "./components";
 import Login from "./routes/auth/Login";
 import Register from "./routes/auth/Register";
 import UserAuthentication from "./routes/auth/UserAuthentication";
+import ProductDetails from "./routes/ProductDetails";
 
 function App() {
   const { isLoading } = useContext(StateContext);
@@ -22,6 +23,7 @@ function App() {
             <Route index={true} element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
           </Route>
+          <Route path ="/products/:productId" element={<ProductDetails />}/>
         </Route>
       </Routes>
     </>

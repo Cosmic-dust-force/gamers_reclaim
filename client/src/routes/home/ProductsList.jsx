@@ -6,7 +6,7 @@ export default function ProductsList() {
     
     
     return (
-      <div className="flex flex-wrap p-6 m-8">
+      <div className="flex flex-wrap justify-center mx-8 mt-2 pt-2 ">
         
         {
             products.map(product => <Product product = {product}/>)
