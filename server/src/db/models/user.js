@@ -50,8 +50,8 @@ async function create(user) {
 }
 
 module.exports = {
-  // add your database adapter fns here
   getAll,
   getByEmail,
+  getById,
   create,
 };

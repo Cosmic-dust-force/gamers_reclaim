@@ -12,6 +12,8 @@ const {
   createUsers,
   createCategories,
   createProducts,
+  createOrders,
+  createCartItems,
 } = require("./tableCreation");
 const {
   populateCustomers,
@@ -28,6 +30,8 @@ async function deleteTables() {
         DROP TABLE IF EXISTS users;
         DROP TYPE IF EXISTS role;
         DROP TABLE IF EXISTS contacts;
+        DROP TABLE IF EXISTS orders;
+        DROP TABLE IF EXISTS cart_items;
     `);
 }
 
@@ -36,6 +40,8 @@ async function createTables() {
   await createUsers();
   await createCategories();
   await createProducts();
+  await createOrders();
+  await createCartItems();
 
   console.log("Tables created");
 }
