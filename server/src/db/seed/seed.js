@@ -25,13 +25,13 @@ const { getAllCategories } = require("../adapters/categoriesAdapter");
 
 async function deleteTables() {
   await client.query(`
-        DROP TABLE IF EXISTS products;
-        DROP TABLE IF EXISTS categories;
-        DROP TABLE IF EXISTS users;
-        DROP TYPE IF EXISTS role;
-        DROP TABLE IF EXISTS contacts;
-        DROP TABLE IF EXISTS orders;
-        DROP TABLE IF EXISTS cart_items;
+    DROP TABLE IF EXISTS cart_items;
+    DROP TABLE IF EXISTS products;
+    DROP TABLE IF EXISTS categories;
+    DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS users;
+    DROP TYPE IF EXISTS role;
+    DROP TABLE IF EXISTS contacts;
     `);
 }
 
