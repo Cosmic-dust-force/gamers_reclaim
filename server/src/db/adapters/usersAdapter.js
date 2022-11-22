@@ -36,6 +36,19 @@ async function getAllUsers() {
   }
 }
 
+async function getAllCustomers() {
+  try {
+    const { rows: customers } = await client.query(`
+                SELECT * FROM users
+                WHERE user_role = 'customer'; 
+            `);
+    return customers;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getUserByEmail(email) {
   try {
     const {
@@ -78,6 +91,7 @@ async function getUserById(id) {
 module.exports = {
   createUser,
   getAllUsers,
+  getAllCustomers,
   getUserByEmail,
   getUserById,
 };
