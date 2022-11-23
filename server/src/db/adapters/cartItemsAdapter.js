@@ -12,6 +12,7 @@ async function createCartItem(fields) {
       `
         INSERT INTO cart_items (${insertColumns})
         VALUES (${insertValues})
+        ON CONFLICT DO NOTHING
         RETURNING *;
     `,
       Object.values(fields)
