@@ -1,5 +1,4 @@
 const { BASE_URL = "http://localhost:4000/product_images" } = process.env;
-console.log("quah", BASE_URL);
 
 const products = [
   {

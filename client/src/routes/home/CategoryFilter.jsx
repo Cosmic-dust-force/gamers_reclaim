@@ -1,30 +1,29 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import useCategories from "../../hooks/useCategories";
 
 export default function CategoryFilter({
-  selectedCategories,
-  setSelectedCategories,
+  onSelectedCategoriesChangedHandler,
 }) {
   const { categories } = useCategories();
-
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
 
   function handleChange(event) {
-    if (event.currentTarget.checked) {
-      const newCategory = event.target.value;
-      const { ...currentCategories } = selectedCategories;
-      const updatedCategories = {
-        [newCategory]: newCategory,
-        ...currentCategories,
-      };
-      setSelectedCategories(updatedCategories);
+    const categoryIsChecked = event.currentTarget.checked;
+    const selectedCategory = event.target.value;
+
+
+    if (categoryIsChecked) {
+      setSelectedCategories([...selectedCategories, selectedCategory]);
     } else {
-      const categoryToRemove = event.target.value;
-      const { [categoryToRemove]: removedCategory, ...updatedCategories } =
-        selectedCategories;
-      setSelectedCategories(updatedCategories);
+      setSelectedCategories(selectedCategories.filter((category) => category !== selectedCategory));
     }
   }
+
+  useEffect(() => {
+    onSelectedCategoriesChangedHandler(selectedCategories)
+  }, [selectedCategories, onSelectedCategoriesChangedHandler]);
 
   return (
     <aside className="flex flex-col mr-8 p-2">
@@ -33,7 +32,7 @@ export default function CategoryFilter({
         onClick={() => setFilterVisible(!filterVisible)}
       >
         Filter By Category
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           {filterVisible ? "expand_less" : "expand_more"}
         </span>
       </button>

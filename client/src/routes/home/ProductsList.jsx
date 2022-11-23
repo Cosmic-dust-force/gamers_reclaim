@@ -1,25 +1,26 @@
 import { useState } from "react";
-import useProducts from "../../hooks/useProducts";
 import CategoryFilter from "./CategoryFilter";
 import Product from "./Product";
 
-export default function ProductsList() {
-  const { products, productsError } = useProducts();
-  const [selectedCategories, setSelectedCategories] = useState({});
+export default function ProductsList( {products} ) {
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const filteredProducts = products.filter((product) => {
-    if (!Object.keys(selectedCategories).length) {
+    if (!selectedCategories.length) {
       return true;
     } else {
-      return selectedCategories[product.categoryName];
+      return selectedCategories.includes(product.categoryName);
     }
   });
+
+  const onSelectedCategoriesChanged = (categories) => {
+    setSelectedCategories(categories);
+  }
 
   return (
     <div className="flex justify-center mx-8 flex-wrap mt-2 pt-2 ">
       <CategoryFilter
-        selectedCategories={selectedCategories}
-        setSelectedCategories={setSelectedCategories}
+        onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
       />
       <main>
         {filteredProducts.map((product) => (
