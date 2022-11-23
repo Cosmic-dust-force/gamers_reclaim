@@ -76,12 +76,14 @@ async function populateFirstCustomerCart() {
   const products = await getAllProducts();
 
   await createCartItem({
+    user_id: firstCustomerId,
     product_id: products[0].id,
     quantity: 1,
     price_usd: products[0].price_usd,
   });
 
   await createCartItem({
+    user_id: firstCustomerId,
     product_id: products[1].id,
     quantity: 3,
     price_usd: products[1].price_usd,

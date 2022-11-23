@@ -1,6 +1,10 @@
 const client = require("../client");
 
-const { getUserByEmail, createUser } = require("../adapters/usersAdapter");
+const {
+  getUserByEmail,
+  getUserById,
+  createUser,
+} = require("../adapters/usersAdapter");
 const { createContact } = require("../adapters/contactsAdapter");
 const userMapper = require("./mapping/userMapping");
 

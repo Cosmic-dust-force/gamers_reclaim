@@ -24,6 +24,7 @@ const {
   testGetUserByEmail,
   testGetUserById,
   testGetAllContacts,
+  testGetAllCartItems,
 } = require("./tests");
 
 async function deleteTables() {
@@ -69,6 +70,7 @@ async function runTests() {
   await testGetUserById();
   await testGetAllCategories();
   await testGetAllProducts();
+  await testGetAllCartItems();
 }
 
 async function seed() {

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../db/models/user");
+const { AuthenticationRequired } = require("./errors");
 
 const { JWT_SECRET } = process.env;
 
@@ -11,7 +12,6 @@ async function useToken(req, res, next) {
     if (!authorization) return next();
 
     const token = authorization.slice(prefix.length).trim();
-
     const { id } = jwt.verify(token, JWT_SECRET);
 
     if (id) {
@@ -24,9 +24,17 @@ async function useToken(req, res, next) {
 
     next();
   } catch (error) {
-    console.error();
+    console.error(error);
     next(error);
   }
 }
 
-module.exports = { useToken };
+async function requireUser(req, res, next) {
+  if (!req.user) {
+    return next(AuthenticationRequired());
+  }
+
+  next();
+}
+
+module.exports = { useToken, requireUser };

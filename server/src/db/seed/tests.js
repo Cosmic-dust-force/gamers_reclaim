@@ -6,6 +6,7 @@ const {
   getUserById,
 } = require("../adapters/usersAdapter");
 const { getAllContacts } = require("../adapters/contactsAdapter");
+const { getAllCartItems } = require("../adapters/cartItemsAdapter");
 
 async function testGetAllCategories() {
   console.log("Getting all categories.");
@@ -43,6 +44,12 @@ async function testGetAllContacts() {
   console.log(contacts);
 }
 
+async function testGetAllCartItems() {
+  console.log("Getting all cartItems.");
+  const cartItems = await getAllCartItems();
+  console.log(cartItems);
+}
+
 module.exports = {
   testGetAllCategories,
   testGetAllProducts,
@@ -50,4 +57,5 @@ module.exports = {
   testGetUserByEmail,
   testGetUserById,
   testGetAllContacts,
+  testGetAllCartItems,
 };
