@@ -1,33 +1,41 @@
 require("dotenv").config();
 const { client } = require("..");
-const {
-  getAllUsers,
-  getUserByEmail,
-  getUserById,
-} = require("../adapters/usersAdapter");
-const { getAllContacts } = require("../adapters/contactsAdapter");
-const { getAllProducts } = require("../adapters/productsAdapter");
+
 const {
   createContacts,
   createUsers,
   createCategories,
   createProducts,
+  createOrders,
+  createCartItems,
 } = require("./tableCreation");
 const {
   populateCustomers,
   populateAdmins,
   populateProducts,
   populateCategories,
+  populateFirstCustomerCart,
 } = require("./tablePopulation");
-const { getAllCategories } = require("../adapters/categoriesAdapter");
+
+const {
+  testGetAllCategories,
+  testGetAllProducts,
+  testGetAllUsers,
+  testGetUserByEmail,
+  testGetUserById,
+  testGetAllContacts,
+  testGetAllCartItems,
+} = require("./tests");
 
 async function deleteTables() {
   await client.query(`
-        DROP TABLE IF EXISTS products;
-        DROP TABLE IF EXISTS categories;
-        DROP TABLE IF EXISTS users;
-        DROP TYPE IF EXISTS role;
-        DROP TABLE IF EXISTS contacts;
+    DROP TABLE IF EXISTS cart_items;
+    DROP TABLE IF EXISTS products;
+    DROP TABLE IF EXISTS categories;
+    DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS users;
+    DROP TYPE IF EXISTS role;
+    DROP TABLE IF EXISTS contacts;
     `);
 }
 
@@ -36,6 +44,8 @@ async function createTables() {
   await createUsers();
   await createCategories();
   await createProducts();
+  await createOrders();
+  await createCartItems();
 
   console.log("Tables created");
 }
@@ -49,42 +59,18 @@ async function insertTestData() {
   await populateCategories();
   console.log("Inserting test products");
   await populateProducts();
+  console.log("Inserting test cart items");
+  await populateFirstCustomerCart();
 }
 
-async function testGetAllCategories() {
-  console.log("Getting all categories.");
-  const categories = await getAllCategories();
-  console.log(categories);
-}
-
-async function testGetAllProducts() {
-  console.log("Getting all products!");
-  const products = await getAllProducts();
-  console.log(products);
-}
-
-async function testGetAllUsers() {
-  console.log("Getting all users.");
-  const users = await getAllUsers();
-  console.log(users);
-}
-
-async function testGetAllContacts() {
-  console.log("Getting all contacts.");
-  const contacts = await getAllContacts();
-  console.log(contacts);
-}
-
-async function testGetUserByEmail() {
-  console.log("Getting user by email: misty@gmail.com");
-  const misty = await getUserByEmail("misty@gmail.com");
-  console.log(misty);
-}
-
-async function testGetUserById() {
-  console.log("Getting user by id: 2");
-  const user = await getUserById(2);
-  console.log(user);
+async function runTests() {
+  await testGetAllUsers();
+  await testGetAllContacts();
+  await testGetUserByEmail();
+  await testGetUserById();
+  await testGetAllCategories();
+  await testGetAllProducts();
+  await testGetAllCartItems();
 }
 
 async function seed() {
@@ -95,12 +81,7 @@ async function seed() {
     console.log("Creating tables...");
     await createTables();
     await insertTestData();
-    await testGetAllUsers();
-    await testGetAllContacts();
-    await testGetUserByEmail();
-    await testGetUserById();
-    await testGetAllCategories();
-    await testGetAllProducts();
+    await runTests();
     console.log("Success!");
   } catch (error) {
     console.error(error);

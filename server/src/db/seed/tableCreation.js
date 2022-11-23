@@ -38,17 +38,41 @@ async function createCategories() {
 
 async function createProducts() {
   await client.query(`
-            CREATE TABLE products(
-                id SERIAL PRIMARY KEY,
-                product_name VARCHAR(255) UNIQUE NOT NULL,
-                price_usd MONEY NOT NULL,
-                inventory_quantity INTEGER NOT NULL,
-                description VARCHAR(255) NOT NULL,
-                category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
-                brand VARCHAR(255) NOT NULL,
-                image_url VARCHAR(255)
-            );
+    CREATE TABLE products(
+      id SERIAL PRIMARY KEY,
+      product_name VARCHAR(255) UNIQUE NOT NULL,
+      price_usd MONEY NOT NULL,
+      inventory_quantity INTEGER NOT NULL,
+      description VARCHAR(255) NOT NULL,
+      category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+      brand VARCHAR(255) NOT NULL,
+      image_url VARCHAR(255)
+    );
     `);
+}
+
+async function createOrders() {
+  await client.query(`
+    CREATE TABLE orders(
+      id SERIAL PRIMARY KEY,
+      order_date DATE,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+    );
+  `);
+}
+
+async function createCartItems() {
+  await client.query(`
+    CREATE TABLE cart_items(
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+      order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
+      quantity INTEGER NOT NULL,
+      price_usd MONEY NOT NULL,
+      UNIQUE(product_id)
+    );
+  `);
 }
 
 module.exports = {
@@ -56,4 +80,6 @@ module.exports = {
   createUsers,
   createCategories,
   createProducts,
+  createOrders,
+  createCartItems,
 };

@@ -5,9 +5,13 @@ const { categories } = require("../../data/categoryData");
 const { products } = require("../../data/productData");
 const { admins, users } = require("../../data/userData");
 const { createContact } = require("../adapters/contactsAdapter");
-const { createProduct } = require("../adapters/productsAdapter");
-const { createUser } = require("../adapters/usersAdapter");
+const {
+  createProduct,
+  getAllProducts,
+} = require("../adapters/productsAdapter");
+const { createUser, getAllCustomers } = require("../adapters/usersAdapter");
 const { createCategory } = require("../adapters/categoriesAdapter");
+const { createCartItem } = require("../adapters/cartItemsAdapter");
 
 async function populateCustomers() {
   contacts.map(async (contact, idx) => {
@@ -65,9 +69,31 @@ async function populateProducts() {
   await Promise.all(insertProducts);
 }
 
+async function populateFirstCustomerCart() {
+  const customers = await getAllCustomers();
+  const firstCustomerId = customers[0].id;
+
+  const products = await getAllProducts();
+
+  await createCartItem({
+    user_id: firstCustomerId,
+    product_id: products[0].id,
+    quantity: 1,
+    price_usd: products[0].price_usd,
+  });
+
+  await createCartItem({
+    user_id: firstCustomerId,
+    product_id: products[1].id,
+    quantity: 3,
+    price_usd: products[1].price_usd,
+  });
+}
+
 module.exports = {
   populateCustomers,
   populateAdmins,
   populateCategories,
   populateProducts,
+  populateFirstCustomerCart,
 };
