@@ -30,10 +30,18 @@ function AuthorizationRequiredError() {
   };
 }
 
+function ItemInCartError() {
+  return {
+    name: "ItemInCartError",
+    message: "This item is already in the users cart.",
+  };
+}
+
 module.exports = {
   UserDoesNotExistError,
   UnexpectedServerError,
   PasswordDoesNotMatchError,
   AuthenticationRequiredError,
   AuthorizationRequiredError,
+  ItemInCartError,
 };

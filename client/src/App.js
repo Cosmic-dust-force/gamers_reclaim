@@ -23,7 +23,7 @@ function App() {
             <Route index={true} element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
           </Route>
-          <Route path ="/products/:productId" element={<ProductDetails />}/>
+          <Route path="/products/:productId" element={<ProductDetails />} />
         </Route>
       </Routes>
     </>

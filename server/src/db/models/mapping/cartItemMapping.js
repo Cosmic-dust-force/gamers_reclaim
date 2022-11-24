@@ -1,5 +1,11 @@
 function dbFromModel(modelCartItem) {
-  const { userId, productId, orderId, priceUsd, ...dbCartItem } = modelCartItem;
+  const {
+    userId,
+    productId,
+    orderId = null,
+    priceUsd,
+    ...dbCartItem
+  } = modelCartItem;
 
   dbCartItem.user_id = userId;
   dbCartItem.product_id = productId;

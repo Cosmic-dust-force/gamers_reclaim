@@ -2,10 +2,21 @@ const cartItemsModel = require("../../../db/models/cartItem");
 const {
   UnexpectedServerError,
   AuthorizationRequiredError,
+  ItemInCartError,
 } = require("../../errors");
 
 async function addItemToCart(req, res, next) {
   try {
+    const cartItems = await cartItemsModel.itemsInCartForUser(req.user.id);
+
+    const item = cartItems.find((cartItem) => {
+      return cartItem.productId === Number(req.body.productId);
+    });
+
+    if (item) {
+      return next(ItemInCartError());
+    }
+
     const newCartItem = await cartItemsModel.create(req.body);
 
     return res.json(newCartItem);
