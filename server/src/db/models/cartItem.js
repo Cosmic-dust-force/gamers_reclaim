@@ -1,5 +1,8 @@
-const { dbFromModel } = require("./mapping/cartItemMapping");
-const { createCartItem } = require("../adapters/cartItemsAdapter");
+const { dbFromModel, modelFromDb } = require("./mapping/cartItemMapping");
+const {
+  createCartItem,
+  getCartItemsInCartForUser,
+} = require("../adapters/cartItemsAdapter");
 
 async function create(cartItem) {
   const dbCartItem = dbFromModel(cartItem);
@@ -9,4 +12,14 @@ async function create(cartItem) {
   return newCartItem;
 }
 
-module.exports = { create };
+async function itemsInCartForUser(user_id) {
+  const dbCartItems = await getCartItemsInCartForUser(user_id);
+
+  const cartItems = dbCartItems.map((cartItem) => {
+    return modelFromDb(cartItem);
+  });
+
+  return cartItems;
+}
+
+module.exports = { create, itemsInCartForUser };

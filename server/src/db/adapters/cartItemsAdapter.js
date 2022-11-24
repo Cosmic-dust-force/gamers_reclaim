@@ -37,4 +37,21 @@ async function getAllCartItems() {
   }
 }
 
-module.exports = { createCartItem, getAllCartItems };
+async function getCartItemsInCartForUser(userId) {
+  try {
+    const { rows: cartItems } = await client.query(
+      `
+              SELECT * FROM cart_items
+              WHERE user_id = $1
+              AND order_id IS NULL
+          `,
+      [userId]
+    );
+    return cartItems;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+module.exports = { createCartItem, getAllCartItems, getCartItemsInCartForUser };

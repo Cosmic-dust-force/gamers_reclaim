@@ -9,4 +9,16 @@ function dbFromModel(modelCartItem) {
   return dbCartItem;
 }
 
-module.exports = { dbFromModel };
+function modelFromDb(dbCartItem) {
+  const { user_id, product_id, order_id, price_usd, ...modelCartItem } =
+    dbCartItem;
+
+  modelCartItem.userId = user_id;
+  modelCartItem.productId = product_id;
+  modelCartItem.orderId = order_id;
+  modelCartItem.priceUsd = price_usd;
+
+  return modelCartItem;
+}
+
+module.exports = { dbFromModel, modelFromDb };
