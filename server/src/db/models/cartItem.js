@@ -3,6 +3,7 @@ const {
   createCartItem,
   updateCartItem,
   getCartItemsInCartForUser,
+  destroyCartItem,
 } = require("../adapters/cartItemsAdapter");
 
 async function create(cartItem) {
@@ -31,4 +32,8 @@ async function itemsInCartForUser(user_id) {
   return cartItems;
 }
 
-module.exports = { create, update, itemsInCartForUser };
+async function destroy(id) {
+  return await destroyCartItem(id);
+}
+
+module.exports = { create, update, itemsInCartForUser, destroy };

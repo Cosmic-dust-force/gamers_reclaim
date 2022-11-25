@@ -81,9 +81,29 @@ async function getCartItemsInCartForUser(userId) {
   }
 }
 
+async function destroyCartItem(id) {
+  try {
+    const {
+      rows: [destroyedCartItem],
+    } = await client.query(
+      `
+              DELETE FROM cart_items
+              WHERE id = $1
+              RETURNING *
+          `,
+      [id]
+    );
+    return destroyedCartItem;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 module.exports = {
   createCartItem,
   updateCartItem,
   getAllCartItems,
   getCartItemsInCartForUser,
+  destroyCartItem,
 };

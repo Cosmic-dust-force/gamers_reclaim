@@ -69,4 +69,22 @@ async function getUserCart(req, res, next) {
   }
 }
 
-module.exports = { addItemToCart, updateItemQuantity, getUserCart };
+async function removeItemFromCart(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const removedCartItem = await cartItemsModel.destroy(id);
+
+    return res.json(removedCartItem);
+  } catch (error) {
+    console.error(error);
+    next(UnexpectedServerError());
+  }
+}
+
+module.exports = {
+  addItemToCart,
+  updateItemQuantity,
+  getUserCart,
+  removeItemFromCart,
+};

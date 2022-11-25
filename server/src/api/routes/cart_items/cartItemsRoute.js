@@ -4,6 +4,7 @@ const {
   addItemToCart,
   updateItemQuantity,
   getUserCart,
+  removeItemFromCart,
 } = require("./cartItemsController");
 
 const cartItemsRouter = express.Router();
@@ -18,5 +19,7 @@ cartItemsRouter.patch(
 );
 
 cartItemsRouter.get("/:userId", useToken, requireUser, getUserCart);
+
+cartItemsRouter.delete("/:id", useToken, requireUser, removeItemFromCart);
 
 module.exports = cartItemsRouter;
