@@ -18,4 +18,16 @@ function generateInsertValues(fields) {
   return insertValues;
 }
 
-module.exports = { generateInsertColumns, generateInsertValues };
+function generateUpdateQuery(fields) {
+  return Object.keys(fields)
+    .map((column, index) => {
+      return `"${column}"=$${index + 1}`;
+    })
+    .join(", ");
+}
+
+module.exports = {
+  generateInsertColumns,
+  generateInsertValues,
+  generateUpdateQuery,
+};

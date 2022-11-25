@@ -70,7 +70,7 @@ async function createCartItems() {
       order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
       quantity INTEGER NOT NULL,
       price_usd MONEY NOT NULL,
-      UNIQUE(product_id)
+      UNIQUE (user_id, order_id, product_id)
     );
   `);
 }
