@@ -14,6 +14,23 @@ async function addItemToCart(token, cartItem) {
   }
 }
 
+async function updateItemQuantity(token, id, productId, quantity) {
+  try {
+    const serverResponse = await cartItemsController.patch(
+      `/quantity/${id}`,
+      { productId, quantity },
+      {
+        headers: { authorization: `Bearer  ${token}` },
+      }
+    );
+
+    return serverResponse.data;
+  } catch (error) {
+    console.error(error);
+    handleErrors(error);
+  }
+}
+
 async function getInCartForUser(token, userId) {
   try {
     const serverResponse = await cartItemsController.get(`/${userId}`, {
@@ -27,4 +44,17 @@ async function getInCartForUser(token, userId) {
   }
 }
 
-export { addItemToCart, getInCartForUser };
+async function deleteCartItem(token, id) {
+  try {
+    const serverResponse = await cartItemsController.delete(`/${id}`, {
+      headers: { authorization: `Bearer  ${token}` },
+    });
+
+    return serverResponse.data;
+  } catch (error) {
+    console.error(error);
+    handleErrors(error);
+  }
+}
+
+export { addItemToCart, updateItemQuantity, getInCartForUser, deleteCartItem };

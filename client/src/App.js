@@ -12,7 +12,6 @@ import ProductDetails from "./routes/ProductDetails";
 
 function App() {
   const { isLoading } = useContext(StateContext);
-
   return (
     <>
       {isLoading && <Loading />}

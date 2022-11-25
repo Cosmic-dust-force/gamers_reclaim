@@ -5,7 +5,7 @@ import * as cartItemsController from "../axios-services/cartItems";
 
 function useCart() {
   const [cartItems, setCartItems] = useState([]);
-  const [cartItemsError, setcartItemsError] = useState("");
+  const [cartItemsError, setCartItemsError] = useState("");
   const { setIsLoading } = useContext(StateContext);
   const { user } = useContext(UserContext);
 
@@ -19,7 +19,7 @@ function useCart() {
       );
       setCartItems(data);
     } catch (error) {
-      setcartItemsError(error);
+      setCartItemsError(error);
     }
 
     setIsLoading(false);
@@ -32,7 +32,44 @@ function useCart() {
           await cartItemsController.addItemToCart(user.token, cartItem);
           downloadUserCart();
         } catch (error) {
-          setcartItemsError(error);
+          setCartItemsError(error);
+        }
+      } else {
+        //Just make change to local cached cart
+      }
+    },
+    [user, downloadUserCart]
+  );
+
+  const updateItemQuantity = useCallback(
+    async (id, productId, quantity) => {
+      if (user) {
+        try {
+          await cartItemsController.updateItemQuantity(
+            user.token,
+            id,
+            productId,
+            quantity
+          );
+          downloadUserCart();
+        } catch (error) {
+          setCartItemsError(error);
+        }
+      } else {
+        //Just make change to local cached cart
+      }
+    },
+    [user, downloadUserCart]
+  );
+
+  const removeItemFromCart = useCallback(
+    async (id) => {
+      if (user) {
+        try {
+          await cartItemsController.deleteCartItem(user.token, id);
+          downloadUserCart();
+        } catch (error) {
+          setCartItemsError(error);
         }
       } else {
         //Just make change to local cached cart
@@ -45,7 +82,13 @@ function useCart() {
     downloadUserCart();
   }, [downloadUserCart]);
 
-  return { cartItems, addItemToCart, cartItemsError };
+  return {
+    cartItems,
+    addItemToCart,
+    updateItemQuantity,
+    removeItemFromCart,
+    cartItemsError,
+  };
 }
 
 export default useCart;
