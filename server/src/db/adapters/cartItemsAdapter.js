@@ -1,5 +1,9 @@
 const { client } = require("../");
-const { generateInsertColumns, generateInsertValues } = require("../queryUtil");
+const {
+  generateInsertColumns,
+  generateInsertValues,
+  generateUpdateQuery,
+} = require("../queryUtil");
 
 async function createCartItem(fields) {
   try {
@@ -21,6 +25,29 @@ async function createCartItem(fields) {
     return cartItem;
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+}
+
+async function updateCartItem({ id, ...fields }) {
+  const updateQuery = generateUpdateQuery(fields);
+
+  try {
+    const {
+      rows: [updatedCartItem],
+    } = await client.query(
+      `
+      UPDATE cart_items 
+      SET ${updateQuery}
+      WHERE id = ${id}
+      RETURNING *
+      `,
+      Object.values(fields)
+    );
+
+    return updatedCartItem;
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }
@@ -54,4 +81,9 @@ async function getCartItemsInCartForUser(userId) {
   }
 }
 
-module.exports = { createCartItem, getAllCartItems, getCartItemsInCartForUser };
+module.exports = {
+  createCartItem,
+  updateCartItem,
+  getAllCartItems,
+  getCartItemsInCartForUser,
+};

@@ -37,6 +37,13 @@ function ItemInCartError() {
   };
 }
 
+function InsufficientInventoryError(remainingUnits) {
+  return {
+    name: "InsufficientInventoryError",
+    message: `There are only ${remainingUnits} remaining units.`,
+  };
+}
+
 module.exports = {
   UserDoesNotExistError,
   UnexpectedServerError,
@@ -44,4 +51,5 @@ module.exports = {
   AuthenticationRequiredError,
   AuthorizationRequiredError,
   ItemInCartError,
+  InsufficientInventoryError,
 };

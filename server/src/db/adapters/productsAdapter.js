@@ -67,4 +67,29 @@ async function getAllProductsWithCategory() {
   }
 }
 
-module.exports = { createProduct, getAllProducts, getAllProductsWithCategory };
+async function getProductQuantity(id) {
+  try {
+    const {
+      rows: [row],
+    } = await client.query(
+      `
+        SELECT inventory_quantity 
+        FROM products
+        WHERE id = $1
+        `,
+      [id]
+    );
+
+    return row["inventory_quantity"];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+module.exports = {
+  createProduct,
+  getAllProducts,
+  getAllProductsWithCategory,
+  getProductQuantity,
+};
