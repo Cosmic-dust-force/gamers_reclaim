@@ -3,6 +3,7 @@ const usersRouter = require("./routes/users/usersRoute");
 const productsRouter = require("./routes/products/productsRoute");
 const categoriesRouter = require("./routes/categories/categoriesRoute");
 const cartItemsRouter = require("./routes/cart_items/cartItemsRoute");
+const ordersRouter = require("./routes/orders/ordersRoute");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({
@@ -23,5 +24,7 @@ apiRouter.use("/products", productsRouter);
 apiRouter.use("/categories", categoriesRouter);
 
 apiRouter.use("/cartItems", cartItemsRouter);
+
+apiRouter.use("/orders", ordersRouter);
 
 module.exports = apiRouter;
