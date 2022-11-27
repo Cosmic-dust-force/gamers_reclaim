@@ -17,13 +17,13 @@ export default function Navigation() {
         },
       },
       { name: `Home`, path: `/` },
-      { name: `Link2`, path: `/link2` },
+      { name: `Cart`, path: `/cart` },
     ];
 
     const navLinksSignedOut = [
       { name: `Sign in`, path: `/auth` },
       { name: `Home`, path: `/` },
-      { name: `Link2`, path: `/link2` },
+      { name: `Cart`, path: `/cart` },
     ];
 
     const navLinks = user ? navLinksSignedIn : navLinksSignedOut;

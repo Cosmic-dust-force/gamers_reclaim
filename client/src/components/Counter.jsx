@@ -8,8 +8,9 @@ export default function Counter({ min, max, onCountChanged }) {
   }, [count, onCountChanged]);
 
   return (
-    <div>
+    <div className="flex p-3 m-3">
       <button
+        className="p-2 bg-indigo-500 rounded"
         onClick={() => {
           if (count > min) {
             setCount(count - 1);
@@ -18,8 +19,9 @@ export default function Counter({ min, max, onCountChanged }) {
       >
         -
       </button>
-      <h3>{count}</h3>
+      <span className="p-2 bg-white">{count}</span>
       <button
+        className="p-2 bg-indigo-400 rounded"
         onClick={() => {
           if (count < max) {
             setCount(count + 1);

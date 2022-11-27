@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../db/models/user");
-const { AuthenticationRequired } = require("./errors");
+const { AuthenticationRequiredError } = require("./errors");
 
 const { JWT_SECRET } = process.env;
 
@@ -31,7 +31,7 @@ async function useToken(req, res, next) {
 
 async function requireUser(req, res, next) {
   if (!req.user) {
-    return next(AuthenticationRequired());
+    return next(AuthenticationRequiredError());
   }
 
   next();

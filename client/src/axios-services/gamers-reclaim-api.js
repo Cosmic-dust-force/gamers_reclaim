@@ -13,3 +13,7 @@ export const productsController = axios.create({
 export const categoriesController = axios.create({
   baseURL: API_URL + "categories/",
 });
+
+export const cartItemsController = axios.create({
+  baseURL: API_URL + "cartItems/",
+});

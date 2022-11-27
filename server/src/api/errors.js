@@ -9,23 +9,47 @@ function UnexpectedServerError() {
   return { name: "UnexpectedServerError", message: "Sorry, unexpected error." };
 }
 
-function PasswordDoesNotMatch() {
+function PasswordDoesNotMatchError() {
   return {
-    name: "PasswordDoesNotMatch",
+    name: "PasswordDoesNotMatchError",
     message: "Incorrect password for this user.",
   };
 }
 
-function AuthenticationRequired() {
+function AuthenticationRequiredError() {
   return {
-    name: "AuthenticationRequired",
+    name: "AuthenticationRequiredError",
     message: "This action requires a valid user.",
+  };
+}
+
+function AuthorizationRequiredError() {
+  return {
+    name: "AuthorizationRequiredError",
+    message: "This action requires an authorized user.",
+  };
+}
+
+function ItemInCartError() {
+  return {
+    name: "ItemInCartError",
+    message: "This item is already in the users cart.",
+  };
+}
+
+function InsufficientInventoryError(remainingUnits) {
+  return {
+    name: "InsufficientInventoryError",
+    message: `There are only ${remainingUnits} remaining units.`,
   };
 }
 
 module.exports = {
   UserDoesNotExistError,
   UnexpectedServerError,
-  PasswordDoesNotMatch,
-  AuthenticationRequired,
+  PasswordDoesNotMatchError,
+  AuthenticationRequiredError,
+  AuthorizationRequiredError,
+  ItemInCartError,
+  InsufficientInventoryError,
 };

@@ -4,7 +4,7 @@ const usersModel = require("../../../db/models/user");
 const {
   UserDoesNotExistError,
   UnexpectedServerError,
-  PasswordDoesNotMatch,
+  PasswordDoesNotMatchError,
 } = require("../../errors");
 
 const { JWT_SECRET } = process.env;
@@ -23,7 +23,7 @@ async function login(req, res, next) {
     const isMatchingPassword = await passwordsDoMatch(password, storedPassword);
 
     if (!isMatchingPassword) {
-      return next(PasswordDoesNotMatch());
+      return next(PasswordDoesNotMatchError());
     }
 
     const token = jwt.sign(

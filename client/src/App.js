@@ -9,10 +9,10 @@ import Login from "./routes/auth/Login";
 import Register from "./routes/auth/Register";
 import UserAuthentication from "./routes/auth/UserAuthentication";
 import ProductDetails from "./routes/ProductDetails";
+import Cart from "./routes/checkout/Cart";
 
 function App() {
   const { isLoading } = useContext(StateContext);
-
   return (
     <>
       {isLoading && <Loading />}
@@ -23,7 +23,8 @@ function App() {
             <Route index={true} element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
           </Route>
-          <Route path ="/products/:productId" element={<ProductDetails />}/>
+          <Route path="/products/:productId" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
       </Routes>
     </>
