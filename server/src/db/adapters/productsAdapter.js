@@ -1,4 +1,5 @@
 const { client } = require("../");
+const { generateUpdateQuery } = require("../queryUtil");
 
 async function createProduct({
   productName,
@@ -29,6 +30,28 @@ async function createProduct({
         brand,
         imageUrl,
       ]
+    );
+
+    return product;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function updateProduct({ id, ...fields }) {
+  const updateQuery = generateUpdateQuery(fields);
+
+  try {
+    const {
+      rows: [product],
+    } = await client.query(
+      `
+            UPDATE products
+            SET ${updateQuery}
+            RETURNING *;
+        `,
+      Object.values(fields)
     );
 
     return product;
@@ -87,9 +110,31 @@ async function getProductQuantity(id) {
   }
 }
 
+async function destroyProduct(id) {
+  try {
+    const {
+      rows: [destroyedProduct],
+    } = await client.query(
+      `
+        DELETE FROM products 
+        WHERE id = $1
+        RETURNING *;
+        `,
+      [id]
+    );
+
+    return destroyedProduct;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 module.exports = {
   createProduct,
+  updateProduct,
   getAllProducts,
   getAllProductsWithCategory,
   getProductQuantity,
+  destroyProduct,
 };

@@ -19,4 +19,25 @@ function modelFromDb(dbProduct) {
   return modelProduct;
 }
 
-module.exports = { modelFromDb };
+function dbFromModel(modelProduct) {
+  const {
+    productName: product_name,
+    priceUsd: price_usd,
+    inventoryQuantity: inventory_quantity,
+    categoryId: category_id,
+    categoryName: category_name,
+    imageUrl: image_url,
+    ...dbProduct
+  } = modelProduct;
+
+  dbProduct.product_name = product_name;
+  dbProduct.price_usd = price_usd;
+  dbProduct.inventory_quantity = inventory_quantity;
+  dbProduct.category_id = category_id;
+  dbProduct.category_name = category_name;
+  dbProduct.image_url = image_url;
+
+  return dbProduct;
+}
+
+module.exports = { modelFromDb, dbFromModel };
