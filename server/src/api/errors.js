@@ -44,6 +44,13 @@ function InsufficientInventoryError(remainingUnits) {
   };
 }
 
+function OrderRequiresItemsInCartError(remainingUnits) {
+  return {
+    name: "OrderRequiresItemsInCartError",
+    message: `Creating an order requires at least one item to be in the cart.`,
+  };
+}
+
 module.exports = {
   UserDoesNotExistError,
   UnexpectedServerError,
@@ -52,4 +59,5 @@ module.exports = {
   AuthorizationRequiredError,
   ItemInCartError,
   InsufficientInventoryError,
+  OrderRequiresItemsInCartError,
 };

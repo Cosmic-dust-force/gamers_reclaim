@@ -17,3 +17,7 @@ export const categoriesController = axios.create({
 export const cartItemsController = axios.create({
   baseURL: API_URL + "cartItems/",
 });
+
+export const ordersController = axios.create({
+  baseURL: API_URL + "orders/",
+});

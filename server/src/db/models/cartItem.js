@@ -4,6 +4,7 @@ const {
   updateCartItem,
   getCartItemsInCartForUser,
   destroyCartItem,
+  addUserCartItemsToOrder,
 } = require("../adapters/cartItemsAdapter");
 
 async function create(cartItem) {
@@ -22,8 +23,8 @@ async function update(cartItem) {
   return updatedCartItem;
 }
 
-async function itemsInCartForUser(user_id) {
-  const dbCartItems = await getCartItemsInCartForUser(user_id);
+async function itemsInCartForUser(userId) {
+  const dbCartItems = await getCartItemsInCartForUser(userId);
 
   const cartItems = dbCartItems.map((cartItem) => {
     return modelFromDb(cartItem);
@@ -36,4 +37,16 @@ async function destroy(id) {
   return await destroyCartItem(id);
 }
 
-module.exports = { create, update, itemsInCartForUser, destroy };
+async function orderItemsInUserCart(userId, orderId) {
+  const dbCartItems = await addUserCartItemsToOrder(userId, orderId);
+
+  return dbCartItems.map(modelFromDb);
+}
+
+module.exports = {
+  create,
+  update,
+  itemsInCartForUser,
+  destroy,
+  orderItemsInUserCart,
+};
