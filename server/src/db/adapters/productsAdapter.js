@@ -41,7 +41,6 @@ async function createProduct({
 
 async function updateProduct({ id, ...fields }) {
   const updateQuery = generateUpdateQuery(fields);
-
   try {
     const {
       rows: [product],
@@ -49,6 +48,7 @@ async function updateProduct({ id, ...fields }) {
       `
             UPDATE products
             SET ${updateQuery}
+            WHERE id = ${id}
             RETURNING *;
         `,
       Object.values(fields)
@@ -64,7 +64,8 @@ async function updateProduct({ id, ...fields }) {
 async function getAllProducts() {
   try {
     const { rows: products } = await client.query(`
-        SELECT * FROM products;
+        SELECT * FROM products
+        ORDER BY id ASC;
         `);
 
     return products;
@@ -84,6 +85,25 @@ async function getAllProductsWithCategory() {
         `);
 
     return products;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function getProductByName(productName) {
+  try {
+    const {
+      rows: [product],
+    } = await client.query(
+      `
+        SELECT * FROM products
+        WHERE product_name = $1;
+        `,
+      [productName]
+    );
+
+    return product;
   } catch (error) {
     console.error(error);
     throw error;
@@ -135,6 +155,7 @@ module.exports = {
   updateProduct,
   getAllProducts,
   getAllProductsWithCategory,
+  getProductByName,
   getProductQuantity,
   destroyProduct,
 };

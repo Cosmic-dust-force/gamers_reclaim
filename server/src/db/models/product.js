@@ -2,6 +2,7 @@ const {
   createProduct,
   updateProduct,
   getAllProductsWithCategory,
+  getProductByName,
   getProductQuantity,
   destroyProduct,
 } = require("../adapters/productsAdapter");
@@ -15,7 +16,7 @@ async function create(product) {
 
 async function update(product) {
   const dbProduct = dbFromModel(product);
-
+  console.log(dbProduct);
   const updatedProduct = await updateProduct(dbProduct);
 
   return modelFromDb(updatedProduct);
@@ -29,6 +30,12 @@ async function getAll() {
   return modelProducts;
 }
 
+async function getByName(productName) {
+  const productWithName = await getProductByName(productName);
+
+  return productWithName && modelFromDb(productWithName);
+}
+
 async function getQuantityForId(id) {
   return await getProductQuantity(id);
 }
@@ -38,4 +45,11 @@ async function destroy(id) {
   return modelFromDb(destroyedProduct);
 }
 
-module.exports = { create, update, getAll, getQuantityForId, destroy };
+module.exports = {
+  create,
+  update,
+  getAll,
+  getByName,
+  getQuantityForId,
+  destroy,
+};

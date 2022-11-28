@@ -1,3 +1,9 @@
+function copyObjectSetValues(obj) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([key, value]) => value)
+  );
+}
+
 function modelFromDb(dbProduct) {
   const {
     product_name: productName,
@@ -34,10 +40,9 @@ function dbFromModel(modelProduct) {
   dbProduct.price_usd = price_usd;
   dbProduct.inventory_quantity = inventory_quantity;
   dbProduct.category_id = category_id;
-  dbProduct.category_name = category_name;
   dbProduct.image_url = image_url;
 
-  return dbProduct;
+  return copyObjectSetValues(dbProduct);
 }
 
 module.exports = { modelFromDb, dbFromModel };

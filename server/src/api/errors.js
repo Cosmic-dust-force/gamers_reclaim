@@ -30,6 +30,13 @@ function AuthorizationRequiredError() {
   };
 }
 
+function ProductAlreadyExistsError(productName) {
+  return {
+    name: "ProductAlreadyExistsError",
+    message: `A product with the name ${productName} already exists.`,
+  };
+}
+
 function ItemInCartError() {
   return {
     name: "ItemInCartError",
@@ -57,6 +64,7 @@ module.exports = {
   PasswordDoesNotMatchError,
   AuthenticationRequiredError,
   AuthorizationRequiredError,
+  ProductAlreadyExistsError,
   ItemInCartError,
   InsufficientInventoryError,
   OrderRequiresItemsInCartError,
