@@ -4,7 +4,7 @@ import { handleErrors } from "./common";
 async function addItemToCart(token, cartItem) {
   try {
     const serverResponse = await cartItemsController.post(``, cartItem, {
-      headers: { authorization: `Bearer  ${token}` },
+      headers: { authorization: `Bearer ${token}` },
     });
 
     return serverResponse.data;
@@ -20,7 +20,7 @@ async function updateItemQuantity(token, id, productId, quantity) {
       `/quantity/${id}`,
       { productId, quantity },
       {
-        headers: { authorization: `Bearer  ${token}` },
+        headers: { authorization: `Bearer ${token}` },
       }
     );
 
@@ -34,7 +34,7 @@ async function updateItemQuantity(token, id, productId, quantity) {
 async function getInCartForUser(token, userId) {
   try {
     const serverResponse = await cartItemsController.get(`/${userId}`, {
-      headers: { authorization: `Bearer  ${token}` },
+      headers: { authorization: `Bearer ${token}` },
     });
 
     return serverResponse.data;
