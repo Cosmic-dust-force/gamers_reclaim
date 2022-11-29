@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 
-export default function Counter({ min, max, onCountChanged }) {
-  const [count, setCount] = useState(0);
+export default function Counter({
+  min,
+  max,
+  startingQuantity,
+  onCountChanged,
+}) {
+  const [count, setCount] = useState(startingQuantity);
+
+  console.log(min, max);
 
   useEffect(() => {
     onCountChanged(count);
-  }, [count, onCountChanged]);
+  }, [count]);
 
   return (
     <div className="flex p-3 m-3">
@@ -14,6 +21,7 @@ export default function Counter({ min, max, onCountChanged }) {
         onClick={() => {
           if (count > min) {
             setCount(count - 1);
+            onCountChanged(count);
           }
         }}
       >
@@ -25,6 +33,7 @@ export default function Counter({ min, max, onCountChanged }) {
         onClick={() => {
           if (count < max) {
             setCount(count + 1);
+            onCountChanged(count);
           }
         }}
       >

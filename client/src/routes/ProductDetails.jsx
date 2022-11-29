@@ -10,23 +10,28 @@ export default function ProductDetails() {
   const location = useLocation();
   const { product } = location.state;
   const { user } = useContext(UserContext);
-  const { addItemToCart, updateItemQuantity } = useCart();
+  const { cartItems, addItemToCart, updateItemQuantity } = useCart();
 
   const [userIsAddingToCart, setUserIsAddingToCart] = useState(false);
 
-  const onQuantityUpdated = (quantity) => {
-    console.log(quantity);
-  };
-
   const onAddToCartButtonClick = () => {
     setUserIsAddingToCart(true);
+
     const cartItem = {
-      userId: user.id,
+      userId: user.user.id,
       productId: product.id,
       quantity: 1,
       priceUsd: product.priceUsd,
     };
+
     addItemToCart(cartItem);
+  };
+
+  const onQuantityUpdated = (quantity) => {
+    const cartItem = cartItems.find(
+      (cartItem) => cartItem.productId === product.id
+    );
+    updateItemQuantity(cartItem?.id, product?.id, quantity);
   };
 
   return (
@@ -47,7 +52,8 @@ export default function ProductDetails() {
         {userIsAddingToCart ? (
           <Counter
             onCountChanged={onQuantityUpdated}
-            min={0}
+            min={1}
+            startingQuantity={1}
             max={product.inventoryQuantity}
           />
         ) : (
@@ -55,6 +61,22 @@ export default function ProductDetails() {
             clickHandler={onAddToCartButtonClick}
             value={"Add to Cart"}
           />
+        )}
+        {userIsAddingToCart && (
+          <div>
+            <Link
+              to="/"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Contiue Shopping
+            </Link>
+            <Link
+              to="/cart"
+              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >
+              Go to Cart
+            </Link>
+          </div>
         )}
       </div>
     </div>

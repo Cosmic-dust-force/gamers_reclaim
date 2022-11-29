@@ -13,6 +13,7 @@ import Cart from "./routes/checkout/Cart";
 
 function App() {
   const { isLoading } = useContext(StateContext);
+
   return (
     <>
       {isLoading && <Loading />}

@@ -2,9 +2,12 @@ import { useState, useContext, useCallback, useEffect } from "react";
 import { StateContext } from "../context/StateContext";
 import { UserContext } from "../context/UserContext.jsx";
 import * as cartItemsController from "../axios-services/cartItems";
+import * as ordersController from "../axios-services/orders";
 
 function useCart() {
   const [cartItems, setCartItems] = useState([]);
+  const [order, setOrder] = useState(null);
+
   const [cartItemsError, setCartItemsError] = useState("");
   const { setIsLoading } = useContext(StateContext);
   const { user } = useContext(UserContext);
@@ -78,15 +81,31 @@ function useCart() {
     [user, downloadUserCart]
   );
 
+  const checkout = useCallback(async () => {
+    if (user) {
+      try {
+        const orderStub = await ordersController.createOrder(user.token);
+        await downloadUserCart();
+        setOrder(orderStub);
+      } catch (error) {
+        setCartItemsError(error);
+      }
+    } else {
+      //send up cached cart items etc..
+    }
+  }, [user, downloadUserCart]);
+
   useEffect(() => {
     downloadUserCart();
   }, [downloadUserCart]);
 
   return {
     cartItems,
+    order,
     addItemToCart,
     updateItemQuantity,
     removeItemFromCart,
+    checkout,
     cartItemsError,
   };
 }

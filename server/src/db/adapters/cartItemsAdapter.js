@@ -100,10 +100,31 @@ async function destroyCartItem(id) {
   }
 }
 
+async function addUserCartItemsToOrder(userId, orderId) {
+  try {
+    const { rows: updatedCartItems } = await client.query(
+      `
+              UPDATE cart_items
+              SET order_id = $1
+              WHERE user_id = $2
+              AND order_id IS NULL
+              RETURNING id, quantity, product_id, price_usd
+          `,
+      [orderId, userId]
+    );
+
+    return updatedCartItems;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 module.exports = {
   createCartItem,
   updateCartItem,
   getAllCartItems,
   getCartItemsInCartForUser,
   destroyCartItem,
+  addUserCartItemsToOrder,
 };
