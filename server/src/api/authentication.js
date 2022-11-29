@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../db/models/user");
-const { AuthenticationRequiredError } = require("./errors");
+const {
+  AuthenticationRequiredError,
+  AuthorizationRequiredError,
+} = require("./errors");
 
 const { JWT_SECRET } = process.env;
 
@@ -37,4 +40,12 @@ async function requireUser(req, res, next) {
   next();
 }
 
-module.exports = { useToken, requireUser };
+async function requireAdmin(req, res, next) {
+  if (!req.user || req.user.userRole !== "admin") {
+    return next(AuthorizationRequiredError());
+  }
+
+  next();
+}
+
+module.exports = { useToken, requireUser, requireAdmin };

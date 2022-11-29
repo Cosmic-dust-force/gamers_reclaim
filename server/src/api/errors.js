@@ -30,6 +30,13 @@ function AuthorizationRequiredError() {
   };
 }
 
+function ProductAlreadyExistsError(productName) {
+  return {
+    name: "ProductAlreadyExistsError",
+    message: `A product with the name ${productName} already exists.`,
+  };
+}
+
 function ItemInCartError() {
   return {
     name: "ItemInCartError",
@@ -51,13 +58,22 @@ function OrderRequiresItemsInCartError(remainingUnits) {
   };
 }
 
+function FileIsNotImageError() {
+  return {
+    name: "FileIsNotImageError",
+    message: `The file you have tried to submit is not an image.`,
+  };
+}
+
 module.exports = {
   UserDoesNotExistError,
   UnexpectedServerError,
   PasswordDoesNotMatchError,
   AuthenticationRequiredError,
   AuthorizationRequiredError,
+  ProductAlreadyExistsError,
   ItemInCartError,
   InsufficientInventoryError,
   OrderRequiresItemsInCartError,
+  FileIsNotImageError,
 };
