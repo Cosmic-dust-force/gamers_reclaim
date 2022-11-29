@@ -1,4 +1,5 @@
 const { client } = require("../");
+const { generateUpdateQuery } = require("../queryUtil");
 
 async function createProduct({
   productName,
@@ -38,10 +39,33 @@ async function createProduct({
   }
 }
 
+async function updateProduct({ id, ...fields }) {
+  const updateQuery = generateUpdateQuery(fields);
+  try {
+    const {
+      rows: [product],
+    } = await client.query(
+      `
+            UPDATE products
+            SET ${updateQuery}
+            WHERE id = ${id}
+            RETURNING *;
+        `,
+      Object.values(fields)
+    );
+
+    return product;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 async function getAllProducts() {
   try {
     const { rows: products } = await client.query(`
-        SELECT * FROM products;
+        SELECT * FROM products
+        ORDER BY id ASC;
         `);
 
     return products;
@@ -61,6 +85,25 @@ async function getAllProductsWithCategory() {
         `);
 
     return products;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function getProductByName(productName) {
+  try {
+    const {
+      rows: [product],
+    } = await client.query(
+      `
+        SELECT * FROM products
+        WHERE product_name = $1;
+        `,
+      [productName]
+    );
+
+    return product;
   } catch (error) {
     console.error(error);
     throw error;
@@ -87,9 +130,32 @@ async function getProductQuantity(id) {
   }
 }
 
+async function destroyProduct(id) {
+  try {
+    const {
+      rows: [destroyedProduct],
+    } = await client.query(
+      `
+        DELETE FROM products 
+        WHERE id = $1
+        RETURNING *;
+        `,
+      [id]
+    );
+
+    return destroyedProduct;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 module.exports = {
   createProduct,
+  updateProduct,
   getAllProducts,
   getAllProductsWithCategory,
+  getProductByName,
   getProductQuantity,
+  destroyProduct,
 };
