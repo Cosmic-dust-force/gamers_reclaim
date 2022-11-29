@@ -41,7 +41,7 @@ async function requireUser(req, res, next) {
 }
 
 async function requireAdmin(req, res, next) {
-  if (!req.user && req.user.userRole !== "admin") {
+  if (!req.user || req.user.userRole !== "admin") {
     return next(AuthorizationRequiredError());
   }
 

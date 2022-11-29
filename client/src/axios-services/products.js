@@ -12,4 +12,27 @@ async function getAll() {
   }
 }
 
-export { getAll };
+async function uploadProductImage(token, file) {
+  try {
+    let formData = new FormData();
+    formData.append("file", file);
+
+    const serverResponse = await productsController.post(
+      "/productImage",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return serverResponse.data;
+  } catch (error) {
+    console.error(error);
+    handleErrors(error);
+  }
+}
+
+export { getAll, uploadProductImage };

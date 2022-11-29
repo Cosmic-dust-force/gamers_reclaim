@@ -58,6 +58,13 @@ function OrderRequiresItemsInCartError(remainingUnits) {
   };
 }
 
+function FileIsNotImageError() {
+  return {
+    name: "FileIsNotImageError",
+    message: `The file you have tried to submit is not an image.`,
+  };
+}
+
 module.exports = {
   UserDoesNotExistError,
   UnexpectedServerError,
@@ -68,4 +75,5 @@ module.exports = {
   ItemInCartError,
   InsufficientInventoryError,
   OrderRequiresItemsInCartError,
+  FileIsNotImageError,
 };

@@ -1,8 +1,23 @@
+const path = require("node:path");
 const productsModel = require("../../../db/models/product");
 const {
   UnexpectedServerError,
   ProductAlreadyExistsError,
+  FileIsNotImageError,
 } = require("../../errors");
+
+function createPathToImageFile(file) {
+  return path.join(
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "..",
+    "public",
+    "product_images",
+    file.name
+  );
+}
 
 async function isExistingProductWithName(product) {
   return (
@@ -70,4 +85,27 @@ async function removeProduct(req, res, next) {
   }
 }
 
-module.exports = { addProduct, updateProduct, getAllProducts, removeProduct };
+async function uploadProductImage(req, res, next) {
+  try {
+    const { file } = req.files;
+
+    if (!file.mimetype || !/^image/.test(file.mimetype))
+      return next(FileIsNotImageError());
+
+    const imagePath = createPathToImageFile(file);
+    file.mv(imagePath);
+
+    return res.json(file.name);
+  } catch (error) {
+    console.error(error);
+    return next(UnexpectedServerError());
+  }
+}
+
+module.exports = {
+  addProduct,
+  updateProduct,
+  getAllProducts,
+  removeProduct,
+  uploadProductImage,
+};
