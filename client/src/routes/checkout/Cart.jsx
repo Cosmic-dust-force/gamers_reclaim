@@ -8,13 +8,13 @@ import CartItem from "./CartItem";
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { cartItems, removeItemFromCart, updateItemQuantity, checkout, order } =
+  const { cartItems, removeItemFromCart, updateItemQuantity, checkout } =
     useCart();
   const { products } = useProducts();
   const { user } = useContext(UserContext);
 
-  const handleItemRemoved = (itemId) => {
-    removeItemFromCart(itemId);
+  const handleItemRemoved = (cartItemId, productId) => {
+    removeItemFromCart(cartItemId, productId);
   };
 
   const handleQuantityUpdated = (cartItemId, productId, quantity) => {
@@ -45,11 +45,14 @@ export default function Cart() {
         Shopping Cart
       </h1>
       <div className="bg-white">
+        {console.log(cartItems)}
         {cartItems.map((cartItem) => (
           <CartItem
-            key={cartItem.id}
+            key={cartItem.id || "tmp-cart-item-key" + cartItem.productId}
             cartItem={cartItem}
-            products={products}
+            product={products.find(
+              (product) => product.id === cartItem.productId
+            )}
             itemRemovedHandler={handleItemRemoved}
             quantityUpdatedHandler={handleQuantityUpdated}
           />

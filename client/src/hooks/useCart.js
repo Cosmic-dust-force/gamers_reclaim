@@ -1,8 +1,10 @@
 import { useState, useContext, useCallback, useEffect } from "react";
 import { StateContext } from "../context/StateContext";
 import { UserContext } from "../context/UserContext.jsx";
+import { CartContext } from "../context/CartContext";
 import * as cartItemsController from "../axios-services/cartItems";
 import * as ordersController from "../axios-services/orders";
+import * as cartEditor from "../cartEditor";
 
 function useCart() {
   const [cartItems, setCartItems] = useState([]);
@@ -11,6 +13,8 @@ function useCart() {
   const [cartItemsError, setCartItemsError] = useState("");
   const { setIsLoading } = useContext(StateContext);
   const { user } = useContext(UserContext);
+  const { cartItems: cachedCartItems, setCartItems: setCachedCartItems } =
+    useContext(CartContext);
 
   const downloadUserCart = useCallback(async () => {
     setIsLoading(true);
@@ -28,20 +32,33 @@ function useCart() {
     setIsLoading(false);
   }, [setIsLoading, user]);
 
+  const refreshCart = useCallback(async () => {
+    if (user) {
+      downloadUserCart();
+    } else {
+      if (cachedCartItems) {
+        setCartItems([...cachedCartItems]);
+      }
+    }
+  }, [user, cachedCartItems, downloadUserCart]);
+
   const addItemToCart = useCallback(
     async (cartItem) => {
       if (user) {
         try {
           await cartItemsController.addItemToCart(user.token, cartItem);
-          downloadUserCart();
         } catch (error) {
           setCartItemsError(error);
+          return;
         }
       } else {
-        //Just make change to local cached cart
+        const updatedItems = cartEditor.addItemToCart(cartItems, cartItem);
+        setCachedCartItems(updatedItems);
       }
+
+      refreshCart();
     },
-    [user, downloadUserCart]
+    [user, cartItems, setCachedCartItems, refreshCart]
   );
 
   const updateItemQuantity = useCallback(
@@ -54,38 +71,51 @@ function useCart() {
             productId,
             quantity
           );
-          downloadUserCart();
         } catch (error) {
           setCartItemsError(error);
+          return;
         }
       } else {
-        //Just make change to local cached cart
+        const updatedItems = cartEditor.updateItemQuantity(
+          cartItems,
+          productId,
+          quantity
+        );
+
+        setCachedCartItems(updatedItems);
       }
+
+      refreshCart();
     },
-    [user, downloadUserCart]
+    [user, cartItems, setCachedCartItems, refreshCart]
   );
 
   const removeItemFromCart = useCallback(
-    async (id) => {
+    async (id, productId) => {
       if (user) {
         try {
           await cartItemsController.deleteCartItem(user.token, id);
-          downloadUserCart();
         } catch (error) {
           setCartItemsError(error);
+          return;
         }
       } else {
-        //Just make change to local cached cart
+        const updatedItems = cartEditor.removeItemFromCart(
+          cartItems,
+          productId
+        );
+        setCachedCartItems(updatedItems);
       }
+      refreshCart();
     },
-    [user, downloadUserCart]
+    [user, cartItems, setCachedCartItems, refreshCart]
   );
 
   const checkout = useCallback(async () => {
     if (user) {
       try {
         const orderStub = await ordersController.createOrder(user.token);
-        await downloadUserCart();
+        await refreshCart();
         setOrder(orderStub);
       } catch (error) {
         setCartItemsError(error);
@@ -93,11 +123,11 @@ function useCart() {
     } else {
       //send up cached cart items etc..
     }
-  }, [user, downloadUserCart]);
+  }, [user, refreshCart]);
 
   useEffect(() => {
-    downloadUserCart();
-  }, [downloadUserCart]);
+    refreshCart();
+  }, [refreshCart]);
 
   return {
     cartItems,
