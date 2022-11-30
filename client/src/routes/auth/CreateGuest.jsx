@@ -19,7 +19,6 @@ export default function CreateGuest() {
       address: guestAddress,
       phoneNumber: guestPhoneNumber,
     };
-    console.log(guest);
     register(guest);
   };
 
