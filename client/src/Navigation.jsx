@@ -17,13 +17,13 @@ export default function Navigation() {
         },
       },
       { name: `Home`, path: `/` },
-      { name: `Link2`, path: `/link2` },
+      { name: `Cart`, path: `/cart` },
     ];
 
     const navLinksSignedOut = [
       { name: `Sign in`, path: `/auth` },
       { name: `Home`, path: `/` },
-      { name: `Link2`, path: `/link2` },
+      { name: `Cart`, path: `/cart` },
     ];
 
     const navLinks = user ? navLinksSignedIn : navLinksSignedOut;
@@ -32,7 +32,7 @@ export default function Navigation() {
   }, [user]);
 
   return (
-    <div className="flex flex-wrap min-h-[100vh] justify-center content-start bg-gray-400">
+    <div className="flex flex-wrap min-h-[100vh] justify-center content-start bg-gray-400 font-raj font-bold text-base">
       <Header links={navLinks} />
 
       <div className="content-area flex grow justify-center lg:max-w-8xl ">
