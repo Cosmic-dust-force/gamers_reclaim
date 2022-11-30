@@ -1,10 +1,17 @@
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import LinkButton from "../../components/LinkButton";
+import { UserContext } from "../../context/UserContext";
 import useCart from "../../hooks/useCart";
 import useProducts from "../../hooks/useProducts";
 import CartItem from "./CartItem";
 
 export default function Cart() {
-  const { cartItems, removeItemFromCart, updateItemQuantity } = useCart();
+  const navigate = useNavigate();
+  const { cartItems, removeItemFromCart, updateItemQuantity, checkout, order } =
+    useCart();
   const { products } = useProducts();
+  const { user } = useContext(UserContext);
 
   const handleItemRemoved = (itemId) => {
     removeItemFromCart(itemId);
@@ -12,6 +19,11 @@ export default function Cart() {
 
   const handleQuantityUpdated = (cartItemId, productId, quantity) => {
     updateItemQuantity(cartItemId, productId, quantity);
+  };
+
+  const handleProcessOrder = () => {
+    checkout();
+    navigate("/cart/orderprocessed");
   };
 
   const getSubtotal = () => {
@@ -44,6 +56,14 @@ export default function Cart() {
         ))}
       </div>
       <h4 className="self-end m-4">{`Subtotal: $${subtotal}`}</h4>
+      <div>
+        {user && cartItems.length ? (
+          <LinkButton
+            value={"Process Order"}
+            clickHandler={handleProcessOrder}
+          />
+        ) : null}
+      </div>
     </main>
   );
 }

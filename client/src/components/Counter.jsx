@@ -8,8 +8,6 @@ export default function Counter({
 }) {
   const [count, setCount] = useState(startingQuantity);
 
-  console.log(min, max);
-
   useEffect(() => {
     onCountChanged(count);
   }, [count]);
