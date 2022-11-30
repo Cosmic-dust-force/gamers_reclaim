@@ -51,6 +51,17 @@ async function createProducts() {
     `);
 }
 
+async function createProductReviews() {
+  await client.query(`
+    CREATE TABLE product_reviews(
+      id SERIAL PRIMARY KEY,
+      product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+      review TEXT NOT NULL,
+      author_name VARCHAR(255) NOT NULL
+    )
+  `)
+}
+
 async function createOrders() {
   await client.query(`
     CREATE TABLE orders(
@@ -82,4 +93,5 @@ module.exports = {
   createProducts,
   createOrders,
   createCartItems,
+  createProductReviews,
 };

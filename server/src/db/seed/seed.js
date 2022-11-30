@@ -8,6 +8,7 @@ const {
   createProducts,
   createOrders,
   createCartItems,
+  createProductReviews,
 } = require("./tableCreation");
 const {
   populateCustomers,
@@ -15,6 +16,7 @@ const {
   populateProducts,
   populateCategories,
   populateFirstCustomerCart,
+  populateProductReviews,
 } = require("./tablePopulation");
 
 const {
@@ -25,11 +27,13 @@ const {
   testGetUserById,
   testGetAllContacts,
   testGetAllCartItems,
+  testGetAllProductReviews,
 } = require("./tests");
 
 async function deleteTables() {
   await client.query(`
     DROP TABLE IF EXISTS cart_items;
+    DROP TABLE IF EXISTS product_reviews;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS categories;
     DROP TABLE IF EXISTS orders;
@@ -44,6 +48,7 @@ async function createTables() {
   await createUsers();
   await createCategories();
   await createProducts();
+  await createProductReviews();
   await createOrders();
   await createCartItems();
 
@@ -59,6 +64,8 @@ async function insertTestData() {
   await populateCategories();
   console.log("Inserting test products");
   await populateProducts();
+  console.log("Inserting test product reviews");
+  await populateProductReviews()
   console.log("Inserting test cart items");
   await populateFirstCustomerCart();
 }
@@ -70,6 +77,7 @@ async function runTests() {
   await testGetUserById();
   await testGetAllCategories();
   await testGetAllProducts();
+  await testGetAllProductReviews();
   await testGetAllCartItems();
 }
 

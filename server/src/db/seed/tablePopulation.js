@@ -3,6 +3,7 @@ const { hashPassword } = require("../../../security");
 const { contacts } = require("../../data/contactData");
 const { categories } = require("../../data/categoryData");
 const { products } = require("../../data/productData");
+const { productReviews } = require("../../data/productReviewData");
 const { admins, users } = require("../../data/userData");
 const { createContact } = require("../adapters/contactsAdapter");
 const {
@@ -12,6 +13,7 @@ const {
 const { createUser, getAllCustomers } = require("../adapters/usersAdapter");
 const { createCategory } = require("../adapters/categoriesAdapter");
 const { createCartItem } = require("../adapters/cartItemsAdapter");
+const { createProductReview } = require("../adapters/productReviewsAdapter");
 
 async function populateCustomers() {
   contacts.map(async (contact, idx) => {
@@ -69,6 +71,14 @@ async function populateProducts() {
   await Promise.all(insertProducts);
 }
 
+async function populateProductReviews(){
+  const insertProductReviews = productReviews.map((productReview) => {
+    return createProductReview(productReview);
+  })
+
+  await Promise.all(insertProductReviews); 
+}
+
 async function populateFirstCustomerCart() {
   const customers = await getAllCustomers();
   const firstCustomerId = customers[0].id;
@@ -95,5 +105,6 @@ module.exports = {
   populateAdmins,
   populateCategories,
   populateProducts,
+  populateProductReviews,
   populateFirstCustomerCart,
 };

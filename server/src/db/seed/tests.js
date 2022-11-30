@@ -5,6 +5,7 @@ const {
   getUserByEmail,
   getUserById,
 } = require("../adapters/usersAdapter");
+const { getAllProductReviews } = require("../adapters/productReviewsAdapter")
 const { getAllContacts } = require("../adapters/contactsAdapter");
 const { getAllCartItems } = require("../adapters/cartItemsAdapter");
 
@@ -18,6 +19,12 @@ async function testGetAllProducts() {
   console.log("Getting all products!");
   const products = await getAllProducts();
   console.log(products);
+}
+
+async function testGetAllProductReviews(){
+  console.log("Getting all reviews.");
+  const productReviews = await getAllProductReviews();
+  console.log(productReviews);
 }
 
 async function testGetAllUsers() {
@@ -53,6 +60,7 @@ async function testGetAllCartItems() {
 module.exports = {
   testGetAllCategories,
   testGetAllProducts,
+  testGetAllProductReviews,
   testGetAllUsers,
   testGetUserByEmail,
   testGetUserById,
