@@ -1,18 +1,22 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+const logo = require("./img/logo.png")
+
 function Header({ links = [] }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
-    <div className="flex grow basis-full items-center justify-between px-4 py-8 border-b border-gray-400">
+    <div className="flex grow basis-full items-center justify-between px-4 py-8 border-gray-400">
       <a href="/">
         <img
-          src={""}
+          src={logo}
           alt="logo"
-          className="object-scale-down w-16 lg:w-28 rounded-md"
+          className="object-scale-down w-12  rounded-md"
         />
       </a>
+      <h1 className="font-bebas text-center font-semibold text-3xl uppercase tracking-wide m-3">Gamer's Reclaim
+      </h1>
       <nav>
         <section className="flex MOBILE-MENU lg:hidden">
           <button
