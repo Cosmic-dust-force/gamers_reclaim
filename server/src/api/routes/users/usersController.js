@@ -41,7 +41,9 @@ async function login(req, res, next) {
 async function register(req, res, next) {
   try {
     const user = req.body;
-    user.password = await hashPassword(user.password);
+    if (user.userRole !== "guest") {
+      user.password = await hashPassword(user.password);
+    }
     const newUser = await usersModel.create(user);
 
     const token = jwt.sign(
@@ -49,7 +51,7 @@ async function register(req, res, next) {
       JWT_SECRET
     );
 
-    return res.json({ token, newUser });
+    return res.json({ token, user: newUser });
   } catch (error) {
     console.error(error);
     return next(UnexpectedServerError());

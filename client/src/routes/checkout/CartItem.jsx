@@ -3,19 +3,19 @@ import LinkButton from "../../components/LinkButton";
 
 export default function CartItem({
   cartItem,
-  products,
+  product,
   itemRemovedHandler,
   quantityUpdatedHandler,
 }) {
-  const product = products.find((product) => product.id === cartItem.productId);
-
   const handleRemoveItemFromCart = () => {
-    itemRemovedHandler(cartItem.id);
+    itemRemovedHandler(cartItem.id, product.id);
   };
 
   const onQuantityUpdated = (quantity) => {
     quantityUpdatedHandler(cartItem.id, product.id, quantity);
   };
+
+  if (!product) return;
 
   return (
     <div className="flex flex-col bg-white m-3 p-4">
@@ -34,7 +34,7 @@ export default function CartItem({
             min={1}
             max={product.inventoryQuantity}
             startingQuantity={cartItem.quantity}
-            onCountChanged={onQuantityUpdated}
+            onCountChangedHandler={onQuantityUpdated}
           />
         </div>
         <h3 className="ml-3">{product.priceUsd}</h3>

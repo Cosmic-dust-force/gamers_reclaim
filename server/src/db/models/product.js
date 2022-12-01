@@ -16,7 +16,6 @@ async function create(product) {
 
 async function update(product) {
   const dbProduct = dbFromModel(product);
-  console.log(dbProduct);
   const updatedProduct = await updateProduct(dbProduct);
 
   return modelFromDb(updatedProduct);

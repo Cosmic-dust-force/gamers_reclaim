@@ -4,12 +4,12 @@ export default function Counter({
   min,
   max,
   startingQuantity,
-  onCountChanged,
+  onCountChangedHandler,
 }) {
   const [count, setCount] = useState(startingQuantity);
 
   useEffect(() => {
-    onCountChanged(count);
+    onCountChangedHandler(count);
   }, [count]);
 
   return (
@@ -19,7 +19,7 @@ export default function Counter({
         onClick={() => {
           if (count > min) {
             setCount(count - 1);
-            onCountChanged(count);
+            onCountChangedHandler(count);
           }
         }}
       >
@@ -31,7 +31,6 @@ export default function Counter({
         onClick={() => {
           if (count < max) {
             setCount(count + 1);
-            onCountChanged(count);
           }
         }}
       >

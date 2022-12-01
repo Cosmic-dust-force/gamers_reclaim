@@ -82,9 +82,39 @@ async function removeItemFromCart(req, res, next) {
   }
 }
 
+async function mergeUserCartItems(req, res, next) {
+  try {
+    const cartItems = await cartItemsModel.itemsInCartForUser(req.user.id);
+    const cachedCartItems = req.body;
+    const existingCartItemProductIds = {};
+
+    for (let existingCartItem of cartItems) {
+      existingCartItemProductIds[existingCartItem.productId] = true;
+    }
+
+    const insertCachedCartItems = cachedCartItems.map((cachedItem) => {
+      if (!existingCartItemProductIds[cachedItem.productId]) {
+        return cartItemsModel.create(cachedItem);
+      }
+    });
+
+    await Promise.all(insertCachedCartItems);
+
+    const synchronizedCartItems = await cartItemsModel.itemsInCartForUser(
+      req.user.id
+    );
+
+    return res.json(synchronizedCartItems);
+  } catch (error) {
+    console.error(error);
+    next(UnexpectedServerError());
+  }
+}
+
 module.exports = {
   addItemToCart,
   updateItemQuantity,
   getUserCart,
   removeItemFromCart,
+  mergeUserCartItems,
 };

@@ -1,20 +1,20 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import LinkButton from "../../components/LinkButton";
 import { UserContext } from "../../context/UserContext";
 import useCart from "../../hooks/useCart";
 import useProducts from "../../hooks/useProducts";
 import CartItem from "./CartItem";
+import CheckoutOptions from "./CheckoutOptions";
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { cartItems, removeItemFromCart, updateItemQuantity, checkout, order } =
+  const { cartItems, removeItemFromCart, updateItemQuantity, checkout } =
     useCart();
   const { products } = useProducts();
   const { user } = useContext(UserContext);
 
-  const handleItemRemoved = (itemId) => {
-    removeItemFromCart(itemId);
+  const handleItemRemoved = (cartItemId, productId) => {
+    removeItemFromCart(cartItemId, productId);
   };
 
   const handleQuantityUpdated = (cartItemId, productId, quantity) => {
@@ -22,8 +22,10 @@ export default function Cart() {
   };
 
   const handleProcessOrder = () => {
-    checkout();
-    navigate("/cart/orderprocessed");
+    if (user) {
+      checkout();
+      navigate("/cart/orderprocessed");
+    }
   };
 
   const getSubtotal = () => {
@@ -47,23 +49,20 @@ export default function Cart() {
       <div className="bg-white">
         {cartItems.map((cartItem) => (
           <CartItem
-            key={cartItem.id}
+            key={cartItem.id || "tmp-cart-item-key" + cartItem.productId}
             cartItem={cartItem}
-            products={products}
+            product={products.find(
+              (product) => product.id === cartItem.productId
+            )}
             itemRemovedHandler={handleItemRemoved}
             quantityUpdatedHandler={handleQuantityUpdated}
           />
         ))}
       </div>
       <h4 className="self-end m-4">{`Subtotal: $${subtotal}`}</h4>
-      <div>
-        {user && cartItems.length ? (
-          <LinkButton
-            value={"Process Order"}
-            clickHandler={handleProcessOrder}
-          />
-        ) : null}
-      </div>
+      {cartItems.length && (
+        <CheckoutOptions user={user} proccesOrderHandler={handleProcessOrder} />
+      )}
     </main>
   );
 }

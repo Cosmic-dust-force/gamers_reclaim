@@ -5,12 +5,12 @@ export default function FileUpload({ onSubmitClickedHandler }) {
 
   function onFileChanged(event) {
     const file = event.currentTarget.files[0];
-    console.log(file);
     setSelectedFile(file);
   }
 
   function handleFormSubmission(event) {
     event.preventDefault();
+    event.stopPropagation();
     onSubmitClickedHandler(selectedFile);
   }
 
