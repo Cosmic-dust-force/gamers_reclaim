@@ -12,6 +12,7 @@ import ProductDetails from "./routes/ProductDetails";
 import Cart from "./routes/checkout/Cart";
 import OrderProcessedPage from "./routes/checkout/OrderProcessedPage";
 import EditProductPage from "./routes/admin/EditProductPage";
+import CreateGuest from "./routes/auth/CreateGuest";
 
 function App() {
   const { isLoading } = useContext(StateContext);
@@ -25,6 +26,7 @@ function App() {
           <Route path="/auth" element={<UserAuthentication />}>
             <Route index={true} element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
+            <Route path="/auth/createguest" element={<CreateGuest />} />
           </Route>
           <Route path="/products/:productId" element={<ProductDetails />} />
           <Route
