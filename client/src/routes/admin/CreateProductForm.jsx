@@ -7,7 +7,7 @@ import { PrimaryButton, TextBox } from "../../components";
 import FileUpload from "../../components/FileUpload";
 import useCategories from "../../hooks/useCategories";
 
-export default function CreateProductForm({ token, product }) {
+export default function CreateProductForm({ token, setIsAddingProduct }) {
   const { categories } = useCategories();
 
   const [productName, setProductName] = useState("");
@@ -31,6 +31,8 @@ export default function CreateProductForm({ token, product }) {
       brand,
       imageUrl
     );
+
+    setIsAddingProduct(false);
   };
 
   const handleProductNameChanged = (event) => {

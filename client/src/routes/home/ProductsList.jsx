@@ -35,7 +35,12 @@ export default function ProductsList({ products }) {
           clickHandler={handleAddProductClick}
         />
       ) : null}
-      {isAddingProduct && <CreateProductForm token={user?.token} />}
+      {isAddingProduct && (
+        <CreateProductForm
+          token={user.token}
+          setIsAddingProduct={setIsAddingProduct}
+        />
+      )}
       <CategoryFilter
         onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
       />
