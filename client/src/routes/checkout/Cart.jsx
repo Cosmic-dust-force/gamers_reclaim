@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import LinkButton from "../../components/LinkButton";
 import { UserContext } from "../../context/UserContext";
 import useCart from "../../hooks/useCart";
 import useProducts from "../../hooks/useProducts";
 import CartItem from "./CartItem";
+import CheckoutOptions from "./CheckoutOptions";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -22,8 +22,10 @@ export default function Cart() {
   };
 
   const handleProcessOrder = () => {
-    checkout();
-    navigate("/cart/orderprocessed");
+    if (user) {
+      checkout();
+      navigate("/cart/orderprocessed");
+    }
   };
 
   const getSubtotal = () => {
@@ -45,7 +47,6 @@ export default function Cart() {
         Shopping Cart
       </h1>
       <div className="bg-white">
-        {console.log(cartItems)}
         {cartItems.map((cartItem) => (
           <CartItem
             key={cartItem.id || "tmp-cart-item-key" + cartItem.productId}
@@ -59,14 +60,9 @@ export default function Cart() {
         ))}
       </div>
       <h4 className="self-end m-4">{`Subtotal: $${subtotal}`}</h4>
-      <div>
-        {user && cartItems.length ? (
-          <LinkButton
-            value={"Process Order"}
-            clickHandler={handleProcessOrder}
-          />
-        ) : null}
-      </div>
+      {cartItems.length && (
+        <CheckoutOptions user={user} proccesOrderHandler={handleProcessOrder} />
+      )}
     </main>
   );
 }

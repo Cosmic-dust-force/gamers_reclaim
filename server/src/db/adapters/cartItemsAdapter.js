@@ -47,7 +47,7 @@ async function updateCartItem({ id, ...fields }) {
 
     return updatedCartItem;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 }

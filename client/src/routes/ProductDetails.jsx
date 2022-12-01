@@ -45,7 +45,10 @@ export default function ProductDetails() {
     const cartItem = cartItems.find(
       (cartItem) => cartItem.productId === product.id
     );
-    updateItemQuantity(cartItem?.id, product?.id, quantity);
+
+    if (cartItem && cartItem.quantity !== quantity) {
+      updateItemQuantity(cartItem?.id, product?.id, quantity);
+    }
   };
 
   return (

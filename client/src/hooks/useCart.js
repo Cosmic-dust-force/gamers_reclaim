@@ -32,15 +32,42 @@ function useCart() {
     setIsLoading(false);
   }, [setIsLoading, user]);
 
+  const synchronizeUserCart = useCallback(async () => {
+    setIsLoading(true);
+
+    try {
+      const cachedCartItemsWithUserId = cachedCartItems.map((cachedItem) => {
+        cachedItem.userId = user.user.id;
+        return cachedItem;
+      });
+
+      const data = await cartItemsController.synchronizeCart(
+        user?.token,
+        cachedCartItemsWithUserId
+      );
+
+      setCachedCartItems(null);
+      setCartItems(data);
+    } catch (error) {
+      setCartItemsError(error);
+    }
+
+    setIsLoading(false);
+  }, [setIsLoading, user, cachedCartItems, setCachedCartItems]);
+
   const refreshCart = useCallback(async () => {
     if (user) {
-      downloadUserCart();
+      if (cachedCartItems) {
+        synchronizeUserCart();
+      } else {
+        downloadUserCart();
+      }
     } else {
       if (cachedCartItems) {
         setCartItems([...cachedCartItems]);
       }
     }
-  }, [user, cachedCartItems, downloadUserCart]);
+  }, [user, cachedCartItems, downloadUserCart, synchronizeUserCart]);
 
   const addItemToCart = useCallback(
     async (cartItem) => {

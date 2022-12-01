@@ -5,15 +5,8 @@ export default function Counter({
   max,
   startingQuantity,
   onCountChangedHandler,
-  onInitialRenderHandler,
 }) {
   const [count, setCount] = useState(startingQuantity);
-
-  useEffect(() => {
-    if (onInitialRenderHandler) {
-      onInitialRenderHandler();
-    }
-  }, [onInitialRenderHandler]);
 
   useEffect(() => {
     onCountChangedHandler(count);
