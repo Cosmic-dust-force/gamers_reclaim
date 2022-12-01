@@ -6,6 +6,8 @@ const {
   FileIsNotImageError,
 } = require("../../errors");
 
+const { BASE_URL = "http://localhost:4000/product_images" } = process.env;
+
 function createPathToImageFile(file) {
   return path.join(
     __dirname,
@@ -20,16 +22,15 @@ function createPathToImageFile(file) {
 }
 
 async function isExistingProductWithName(product) {
-  return (
-    product.productName && (await productsModel.getByName(product.productName))
-  );
+  const productForName = await productsModel.getByName(product.productName);
+  return product.productName && productForName;
 }
 
 async function addProduct(req, res, next) {
   try {
     const product = req.body;
 
-    if (isExistingProductWithName(product)) {
+    if (await isExistingProductWithName(product)) {
       return next(ProductAlreadyExistsError(product.productName));
     }
 
@@ -49,7 +50,7 @@ async function updateProduct(req, res, next) {
     const product = req.body;
     product.id = productId;
 
-    if (isExistingProductWithName(product)) {
+    if (await isExistingProductWithName(product)) {
       return next(ProductAlreadyExistsError(product.productName));
     }
 
@@ -95,7 +96,7 @@ async function uploadProductImage(req, res, next) {
     const imagePath = createPathToImageFile(file);
     file.mv(imagePath);
 
-    return res.json(file.name);
+    return res.json(`${BASE_URL}/${file.name}`);
   } catch (error) {
     console.error(error);
     return next(UnexpectedServerError());

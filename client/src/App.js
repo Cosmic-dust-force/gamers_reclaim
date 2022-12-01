@@ -11,6 +11,7 @@ import UserAuthentication from "./routes/auth/UserAuthentication";
 import ProductDetails from "./routes/ProductDetails";
 import Cart from "./routes/checkout/Cart";
 import OrderProcessedPage from "./routes/checkout/OrderProcessedPage";
+import EditProductPage from "./routes/admin/EditProductPage";
 import CreateGuest from "./routes/auth/CreateGuest";
 
 function App() {
@@ -28,6 +29,10 @@ function App() {
             <Route path="/auth/createguest" element={<CreateGuest />} />
           </Route>
           <Route path="/products/:productId" element={<ProductDetails />} />
+          <Route
+            path="/products/:productId/admin"
+            element={<EditProductPage />}
+          />
           <Route path="/cart" element={<Cart />} />
           <Route path="/cart/orderprocessed" element={<OrderProcessedPage />} />
         </Route>
