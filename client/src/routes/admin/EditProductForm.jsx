@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { editProduct } from "../../axios-services/products";
 import { PrimaryButton, TextBox } from "../../components";
@@ -100,17 +100,12 @@ export default function EditProductForm({ product, token }) {
           />
 
           <label>Select Category:</label>
-          <select onChange={handleCategoryIdChanged}>
+          <select onChange={handleCategoryIdChanged} value={product.categoryId}>
             {categories.map((category) => {
               return (
-                <>
-                  <option
-                    value={category.id}
-                    selected={category.id === product.categoryId}
-                  >
-                    {category.categoryName}
-                  </option>
-                </>
+                <React.Fragment key={category.id}>
+                  <option value={category.id}>{category.categoryName}</option>
+                </React.Fragment>
               );
             })}
           </select>
