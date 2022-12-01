@@ -32,7 +32,7 @@ export default function Navigation() {
   }, [user]);
 
   return (
-    <div className="flex flex-wrap min-h-[100vh] justify-center content-start bg-gray-400 font-raj font-bold text-base">
+    <div className="flex flex-wrap min-h-[100vh] justify-center content-start font-raj font-bold text-lg">
       <Header links={navLinks} />
 
       <div className="content-area flex grow justify-center lg:max-w-8xl ">
