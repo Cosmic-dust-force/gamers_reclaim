@@ -57,4 +57,27 @@ async function deleteCartItem(token, id) {
   }
 }
 
-export { addItemToCart, updateItemQuantity, getInCartForUser, deleteCartItem };
+async function synchronizeCart(token, cachedCartItems) {
+  try {
+    const serverResponse = await cartItemsController.post(
+      `/synchronize`,
+      cachedCartItems,
+      {
+        headers: { authorization: `Bearer  ${token}` },
+      }
+    );
+
+    return serverResponse.data;
+  } catch (error) {
+    console.error(error);
+    handleErrors(error);
+  }
+}
+
+export {
+  addItemToCart,
+  updateItemQuantity,
+  getInCartForUser,
+  deleteCartItem,
+  synchronizeCart,
+};

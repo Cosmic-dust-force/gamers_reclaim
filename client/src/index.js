@@ -6,18 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { StateProvider } from "./context/StateContext";
 import { UserProvider } from "./context/UserContext";
+import { CartProvider } from "./context/CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <StateProvider>
+  <BrowserRouter>
+    <StateProvider>
+      <CartProvider>
         <UserProvider>
           <App />
         </UserProvider>
-      </StateProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+      </CartProvider>
+    </StateProvider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

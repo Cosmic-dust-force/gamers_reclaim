@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Counter from "../components/Counter";
 import LinkButton from "../components/LinkButton";
@@ -10,14 +10,29 @@ export default function ProductDetails() {
   const { product } = location.state;
   const { user } = useContext(UserContext);
   const { cartItems, addItemToCart, updateItemQuantity } = useCart();
-
   const [userIsAddingToCart, setUserIsAddingToCart] = useState(false);
+  const [productInCart, setProductInCart] = useState(null);
+
+  useEffect(() => {
+    const itemForProduct = cartItems.find(
+      (item) => item.productId === product.id
+    );
+
+    if (itemForProduct) {
+      setProductInCart(itemForProduct);
+      setUserIsAddingToCart(true);
+    }
+  }, [cartItems, product.id]);
+
+  function getInitialQuantity() {
+    return productInCart ? productInCart.quantity : 1;
+  }
 
   const onAddToCartButtonClick = () => {
     setUserIsAddingToCart(true);
 
     const cartItem = {
-      userId: user.user.id,
+      userId: user ? user.user.id : null,
       productId: product.id,
       quantity: 1,
       priceUsd: product.priceUsd,
@@ -30,7 +45,10 @@ export default function ProductDetails() {
     const cartItem = cartItems.find(
       (cartItem) => cartItem.productId === product.id
     );
-    updateItemQuantity(cartItem?.id, product?.id, quantity);
+
+    if (cartItem && cartItem.quantity !== quantity) {
+      updateItemQuantity(cartItem?.id, product?.id, quantity);
+    }
   };
 
   return (
@@ -50,9 +68,16 @@ export default function ProductDetails() {
         <h3 className="font-semibold mt-8 mb-1 text-2xl">{product.priceUsd}</h3>
         {userIsAddingToCart ? (
           <Counter
-            onCountChanged={onQuantityUpdated}
+            onCountChangedHandler={onQuantityUpdated}
+            onInitialRenderHandler={
+              productInCart
+                ? null
+                : () => {
+                    onQuantityUpdated(1);
+                  }
+            }
             min={1}
-            startingQuantity={1}
+            startingQuantity={getInitialQuantity()}
             max={product.inventoryQuantity}
           />
         ) : (

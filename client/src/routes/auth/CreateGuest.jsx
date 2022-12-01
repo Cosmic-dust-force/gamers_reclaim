@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext.jsx";
 import { TextBox, PrimaryButton, ErrorMessage } from "../../components";
 import useUsers from "../../hooks/useUsers";
+import { useEffect } from "react";
 
 export default function CreateGuest() {
+  const navigate = useNavigate();
+
   const [guestEmail, setGuestEmail] = useState("");
   const [guestName, setGuestName] = useState("");
   const [guestAddress, setGuestAddress] = useState("");
   const [guestPhoneNumber, setGuestPhoneNumber] = useState("");
+  const { user } = useContext(UserContext);
 
   const { register, usersError } = useUsers();
 
@@ -21,6 +27,12 @@ export default function CreateGuest() {
     };
     register(guest);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/cart");
+    }
+  }, [user, navigate]);
 
   const handleNameChanged = (event) => {
     const enteredName = event.target.value;

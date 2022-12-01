@@ -5,6 +5,7 @@ const {
   updateItemQuantity,
   getUserCart,
   removeItemFromCart,
+  mergeUserCartItems,
 } = require("./cartItemsController");
 
 const cartItemsRouter = express.Router();
@@ -21,5 +22,7 @@ cartItemsRouter.patch(
 cartItemsRouter.get("/:userId", useToken, requireUser, getUserCart);
 
 cartItemsRouter.delete("/:id", useToken, requireUser, removeItemFromCart);
+
+cartItemsRouter.post("/synchronize", useToken, requireUser, mergeUserCartItems);
 
 module.exports = cartItemsRouter;
