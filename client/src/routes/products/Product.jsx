@@ -19,11 +19,11 @@ export default function Product({ product }) {
       </h4>
       <h3 className="font-bold mb-3 text-2xl">{product.priceUsd}</h3>
       {user && user.user.userRole === "admin" ? (
-        <Link to={`products/${product.id}/admin`} state={{ product }}>
+        <Link to={`/products/${product.id}/admin`} state={{ product }}>
           View Product
         </Link>
       ) : (
-        <Link to={`products/${product.id}`} state={{ product }}>
+        <Link to={`/products/${product.id}`} state={{ product }}>
           View Product
         </Link>
       )}

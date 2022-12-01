@@ -53,7 +53,11 @@ export default function ProductDetails() {
 
   return (
     <div className="flex p-2 m-2 flex-col md:flex-row">
-      <img className="rounded-md" src={product.imageUrl} alt={product.productName} />
+      <img
+        className="rounded-md"
+        src={product.imageUrl}
+        alt={product.productName}
+      />
       <div className="m-3">
         <h3 className="font-semibold mt-2 mb-2 text-2xl">
           {product.productName}

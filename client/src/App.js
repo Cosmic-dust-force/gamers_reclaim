@@ -8,16 +8,14 @@ import Login from "./routes/auth/Login";
 import Register from "./routes/auth/Register";
 import UserAuthentication from "./routes/auth/UserAuthentication";
 import ProductDetails from "./routes/ProductDetails";
+import Products from "./routes/products/Products";
 import Cart from "./routes/checkout/Cart";
 import OrderProcessedPage from "./routes/checkout/OrderProcessedPage";
 import EditProductPage from "./routes/admin/EditProductPage";
 import CreateGuest from "./routes/auth/CreateGuest";
-import Products from "./routes/products/Products";
-
 
 function App() {
   const { isLoading } = useContext(StateContext);
-
 
   return (
     <>
