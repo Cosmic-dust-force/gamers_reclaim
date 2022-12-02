@@ -11,18 +11,21 @@ export default function CheckoutOptions({ user, proccesOrderHandler }) {
   } else {
     return (
       <div>
-        {/* <LinkButton
-          value={"Log in & checkout"}
-          clickHandler={() => {
-            navigate("/auth");
-          }}
-        />
+        {
+          <LinkButton
+            value={"Log in & checkout"}
+            clickHandler={() => {
+              navigate("/auth");
+            }}
+          />
+          /*
         <LinkButton
           value={"Register & checkout"}
           clickHandler={() => {
             navigate("/auth/register");
           }}
-        /> */}
+        /> */
+        }
         <LinkButton
           value={"Checkout as guest"}
           clickHandler={() => navigate("/auth/createguest")}
