@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useOrders from "../../hooks/useOrders";
 import Order from "./Order";
 
@@ -23,6 +23,9 @@ export default function CustomerDetails() {
       {!customerOrders.length && (
         <h3 className="my-3">No orders to display.</h3>
       )}
+      <Link to="/admin/customers/" className="my-4">
+        Back to Customers
+      </Link>
     </main>
   );
 }
