@@ -19,11 +19,12 @@ async function getAll() {
 
 async function getAllCustomers() {
   const { rows: customers } = await client.query(`
-      SELECT users.id, users.name, users.email, users.user_role, users.contact_id, contacts.* 
+      SELECT users.id, users.name, users.email, users.user_role, users.contact_id, contacts.address, contacts.phone_number 
       FROM users
       JOIN contacts ON users.contact_id = contacts.id
       WHERE user_role = 'customer';
   `);
+
   const modelCustomers = customers.map((dbCustomer) => {
     const { address, phone_number, ...dbUser } = dbCustomer;
 

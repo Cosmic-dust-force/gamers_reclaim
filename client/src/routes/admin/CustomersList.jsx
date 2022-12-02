@@ -8,8 +8,12 @@ export default function CustomersList() {
 
   return (
     <main>
-      <h1>Customers</h1>
-      <p>Click a row to view customer information and orders.</p>
+      <h1 className="font-bebas font-semibold text-2xl uppercase tracking-wide mb-3">
+        Customers
+      </h1>
+      <p className="my-2">
+        Click a row to view customer information and orders.
+      </p>
       <table>
         <tbody>
           <tr>
