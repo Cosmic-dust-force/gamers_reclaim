@@ -1,6 +1,21 @@
-const { createOrder } = require("../adapters/ordersAdapter");
-const { dbFromModel } = require("./mapping/orderMapping");
+const { getAllOrders, createOrder } = require("../adapters/ordersAdapter");
+const cartItemsModel = require("../models/cartItem");
+const { dbFromModel, modelFromDb } = require("./mapping/orderMapping");
 const { orderItemsInUserCart } = require("./cartItem");
+
+async function getAll() {
+  const dbOrders = await getAllOrders();
+  const modelOrders = dbOrders.map(modelFromDb);
+
+  const cartItems = await cartItemsModel.getAll();
+
+  const ordersWithItems = modelOrders.map((order) => {
+    order.items = cartItems.filter((cartItem) => cartItem.orderId === order.id);
+    return order;
+  });
+
+  return ordersWithItems;
+}
 
 async function checkout(userId, orderDate) {
   const dbOrder = dbFromModel({ userId, orderDate });
@@ -13,4 +28,4 @@ async function checkout(userId, orderDate) {
   return newOrder;
 }
 
-module.exports = { checkout };
+module.exports = { getAll, checkout };

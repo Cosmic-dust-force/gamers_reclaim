@@ -1,5 +1,16 @@
 const { client } = require("../");
 
+async function getAllOrders() {
+  try {
+    const { rows: orders } = await client.query(`SELECT * FROM orders;`);
+
+    return orders;
+  } catch (error) {
+    console.error;
+    throw error;
+  }
+}
+
 async function createOrder({ order_date, user_id }) {
   try {
     const {
@@ -22,4 +33,4 @@ async function createOrder({ order_date, user_id }) {
   }
 }
 
-module.exports = { createOrder };
+module.exports = { getAllOrders, createOrder };

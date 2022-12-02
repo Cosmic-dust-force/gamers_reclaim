@@ -7,6 +7,17 @@ const {
 
 const moment = require("moment");
 
+async function getAllCartItems(req, res, next) {
+  try {
+    const orders = await ordersModel.getAll();
+
+    return res.json(orders);
+  } catch (error) {
+    console.error(error);
+    next(UnexpectedServerError());
+  }
+}
+
 async function checkoutUserCart(req, res, next) {
   try {
     const itemsInCart = await cartItemsModel.itemsInCartForUser(req.user.id);
@@ -25,4 +36,4 @@ async function checkoutUserCart(req, res, next) {
   }
 }
 
-module.exports = { checkoutUserCart };
+module.exports = { getAllCartItems, checkoutUserCart };
