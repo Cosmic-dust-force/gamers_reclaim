@@ -7,6 +7,7 @@ const {
 } = require("../adapters/usersAdapter");
 const { createContact } = require("../adapters/contactsAdapter");
 const userMapper = require("./mapping/userMapping");
+const contactMapper = require("./mapping/contactMapping");
 
 async function getAll() {
   const { rows: users } = await client.query(`
@@ -14,6 +15,27 @@ async function getAll() {
       JOIN contacts ON users.contact_id = contacts.id;
   `);
   return users;
+}
+
+async function getAllCustomers() {
+  const { rows: customers } = await client.query(`
+      SELECT users.id, users.name, users.email, users.user_role, users.contact_id, contacts.* 
+      FROM users
+      JOIN contacts ON users.contact_id = contacts.id
+      WHERE user_role = 'customer';
+  `);
+  const modelCustomers = customers.map((dbCustomer) => {
+    const { address, phone_number, ...dbUser } = dbCustomer;
+
+    const modelUser = userMapper.modelFromDb(dbUser);
+    const modelContact = contactMapper.modelFromDb({ address, phone_number });
+
+    const modelCustomer = { ...modelUser, ...modelContact };
+
+    return modelCustomer;
+  });
+
+  return modelCustomers;
 }
 
 async function getByEmail(email) {
@@ -55,6 +77,7 @@ async function create(user) {
 
 module.exports = {
   getAll,
+  getAllCustomers,
   getByEmail,
   getById,
   create,

@@ -9,6 +9,17 @@ const {
 
 const { JWT_SECRET } = process.env;
 
+async function getCustomers(req, res, next) {
+  try {
+    const customers = await usersModel.getAllCustomers();
+
+    return res.json({ customers });
+  } catch (error) {
+    console.error(error);
+    return next(UnexpectedServerError());
+  }
+}
+
 async function login(req, res, next) {
   try {
     const { email, password } = req.body;
@@ -59,6 +70,7 @@ async function register(req, res, next) {
 }
 
 module.exports = {
+  getCustomers,
   login,
   register,
 };
