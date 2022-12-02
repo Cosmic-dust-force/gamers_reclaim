@@ -20,7 +20,7 @@ function useCustomers() {
     }
 
     setIsLoading(false);
-  }, [setIsLoading]);
+  }, [setIsLoading, user]);
 
   useEffect(() => {
     downloadCustomers();

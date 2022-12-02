@@ -1,11 +1,19 @@
 const { dbFromModel, modelFromDb } = require("./mapping/cartItemMapping");
 const {
+  getAllCartItems,
   createCartItem,
   updateCartItem,
   getCartItemsInCartForUser,
   destroyCartItem,
   addUserCartItemsToOrder,
 } = require("../adapters/cartItemsAdapter");
+
+async function getAll() {
+  const dbCartItems = await getAllCartItems();
+  const modelCartItems = dbCartItems.map(modelFromDb);
+
+  return modelCartItems;
+}
 
 async function create(cartItem) {
   const dbCartItem = dbFromModel(cartItem);
@@ -44,6 +52,7 @@ async function orderItemsInUserCart(userId, orderId) {
 }
 
 module.exports = {
+  getAll,
   create,
   update,
   itemsInCartForUser,
