@@ -44,7 +44,8 @@ export default function ProductsList({ products }) {
       <CategoryFilter
         onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
       />
-      <main>
+      <main
+        className="bg-black rounded-md">
         {filteredProducts.map((product) => (
           <Product key={product.id} product={product} />
         ))}

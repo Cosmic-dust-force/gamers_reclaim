@@ -9,7 +9,7 @@ export default function Products() {
 
     return (
         <div>
-        <h1 className="font-bebas text-center font-semibold text-3xl uppercase tracking-wide m-3">Featured Products</h1>
+        <div className="font-bebas text-center font-semibold text-3xl uppercase tracking-wide m-3"></div>
         <ProductsList products={products}/>
         </div>
     )

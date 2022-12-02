@@ -19,7 +19,7 @@ export default function CartItem({
 
   return (
     <div className="flex flex-col bg-white m-3 p-4">
-      <div className="flex items-center">
+      <div className="flex items-center flex-wrap">
         <img
           className="w-48"
           src={product.imageUrl}
@@ -40,9 +40,9 @@ export default function CartItem({
         <h3 className="ml-3">{product.priceUsd}</h3>
       </div>
       <LinkButton
-        value={"Remove From Cart"}
+        value={"Remove All Items From Cart"}
         clickHandler={handleRemoveItemFromCart}
       />
-    </div>
+      </div>
   );
 }

@@ -10,7 +10,7 @@ export default function CheckoutOptions({ user, proccesOrderHandler }) {
     );
   } else {
     return (
-      <div>
+      <div className="flex place-content-evenly flex-wrap">
         <LinkButton
           value={"Log in & checkout"}
           clickHandler={() => {
@@ -28,7 +28,7 @@ export default function CheckoutOptions({ user, proccesOrderHandler }) {
           value={"Checkout as guest"}
           clickHandler={() => navigate("/auth/createguest")}
         />
-      </div>
+        </div>
     );
   }
 }

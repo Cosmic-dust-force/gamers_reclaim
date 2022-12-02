@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link} from "react-router-dom";
 import Counter from "../components/Counter";
 import LinkButton from "../components/LinkButton";
 import { UserContext } from "../context/UserContext";
@@ -52,60 +52,63 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="flex p-2 m-2 flex-col md:flex-row">
-      <img
-        className="rounded-md"
-        src={product.imageUrl}
-        alt={product.productName}
-      />
-      <div className="m-3">
-        <h3 className="font-semibold mt-2 mb-2 text-2xl">
-          {product.productName}
-        </h3>
-        <h4 className="font-medium mt-2 mb-5 text-l">{product.brand}</h4>
-        <h4>
-          {product.inventoryQuantity
-            ? `In Stock - ${product.inventoryQuantity} available`
-            : "Out of Stock"}
-        </h4>
-        <h4 className="">{product.description}</h4>
-        <h3 className="font-semibold mt-8 mb-1 text-2xl">{product.priceUsd}</h3>
-        {userIsAddingToCart ? (
-          <Counter
-            onCountChangedHandler={onQuantityUpdated}
-            onInitialRenderHandler={
-              productInCart
-                ? null
-                : () => {
-                    onQuantityUpdated(1);
+    <div className="bg-black m-2">
+      <div className="flex p-2 m-2 flex-col md:flex-row">
+        <img
+          className="md:rounded-md"
+          src={product.imageUrl}
+          alt={product.productName}
+        />
+        <div className="bg-white md:rounded-md md:ml-2">
+          <div className="m-3">
+            <h3 className="font-semibold mt-2 mb-2 text-2xl">
+              {product.productName}
+            </h3>
+            <h4 className="font-medium mt-2 mb-5 text-l">{product.brand}</h4>
+            <h4>
+              {product.inventoryQuantity
+                ? `In Stock - ${product.inventoryQuantity} available`
+                : "Out of Stock"}
+            </h4>
+            <h4 className="font-thin">{product.description}</h4>
+            <h3 className="font-semibold mt-8 mb-1 text-2xl">{product.priceUsd}</h3>
+            <div>
+              <p className="font-thin"> Update the amount of items in your cart by clicking below. </p>
+              {userIsAddingToCart ? (
+                <Counter
+                  onCountChangedHandler={onQuantityUpdated}
+                  onInitialRenderHandler={
+                    productInCart
+                      ? null
+                      : () => {
+                        onQuantityUpdated(1);
+                      }
                   }
-            }
-            min={1}
-            startingQuantity={getInitialQuantity()}
-            max={product.inventoryQuantity}
-          />
-        ) : (
-          <LinkButton
-            clickHandler={onAddToCartButtonClick}
-            value={"Add to Cart"}
-          />
-        )}
-        {userIsAddingToCart && (
-          <div>
-            <Link
-              to="/"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Contiue Shopping
-            </Link>
-            <Link
-              to="/cart"
-              className="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >
-              Go to Cart
-            </Link>
+                  min={1}
+                  startingQuantity={getInitialQuantity()}
+                  max={product.inventoryQuantity}
+                />
+              ) : (
+                <LinkButton
+                  clickHandler={onAddToCartButtonClick}
+                  value={"Add to Cart"}
+                />
+              )}
+            </div>
+            {userIsAddingToCart && (
+              <div>
+                <Link
+                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 border border-gray-800 rounded ml-4"
+                  to={"/products"}
+                  >Continue Shopping</Link>
+                <Link
+                  className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 border border-green-800 rounded ml-4"
+                  to={"/cart"}
+                  >View Cart</Link>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

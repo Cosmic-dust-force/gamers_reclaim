@@ -13,7 +13,7 @@ export default function Counter({
   }, [count]);
 
   return (
-    <div className="flex p-3 m-3">
+    <div className="flex p-1 m-3 mb-4">
       <button
         className="p-2 bg-indigo-500 rounded"
         onClick={() => {

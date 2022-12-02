@@ -20,14 +20,18 @@ export default function Navigation() {
           setCartItems(null);
         },
       },
-      { name: `Home`, path: `/` },
-      { name: `Cart`, path: `/cart` },
+      { name: `Products`, path: `/products`},
+      { name: `About Us`, path: `/` },
+      { name: `Cart`, path: `/cart` }
     ];
 
     const navLinksSignedOut = [
+      
       { name: `Sign in`, path: `/auth` },
-      { name: `Home`, path: `/` },
+      { name: `Products`, path: `/products`},
+      { name: `About Us`, path: `/` },
       { name: `Cart`, path: `/cart` },
+      
     ];
 
     const navLinks = user ? navLinksSignedIn : navLinksSignedOut;
@@ -36,8 +40,9 @@ export default function Navigation() {
   }, [user]);
 
   return (
-    <div className="flex flex-wrap min-h-[100vh] justify-center content-start font-raj font-bold text-lg">
-      <Header links={navLinks} />
+    <div className="flex flex-wrap min-h-[100vh] justify-center content-start font-raj bg-white font-bold text-lg">
+      <Header 
+      links={navLinks} />
 
       <div className="content-area flex grow justify-center lg:max-w-8xl ">
         <Outlet />

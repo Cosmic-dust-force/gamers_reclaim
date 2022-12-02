@@ -42,7 +42,7 @@ export default function Cart() {
   const subtotal = getSubtotal();
 
   return (
-    <main className="flex flex-col">
+    <main className="grow flex flex-col flex-wrap">
       <h1 className="text-center font-semibold text-3xl uppercase tracking-wide mb-6">
         Shopping Cart
       </h1>
