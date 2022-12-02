@@ -20,6 +20,9 @@ export default function CustomerDetails() {
       {customerOrders.map((order) => (
         <Order customer={customer} order={order} key={order.id} />
       ))}
+      {!customerOrders.length && (
+        <h3 className="my-3">No orders to display.</h3>
+      )}
     </main>
   );
 }
