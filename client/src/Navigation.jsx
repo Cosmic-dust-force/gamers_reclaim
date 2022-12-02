@@ -1,11 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { Outlet } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
+import { CartContext } from "./context/CartContext";
+
 import Header from "./Header";
 
 export default function Navigation() {
   const [navLinks, setNavLinks] = useState([]);
   const { user, setUser } = useContext(UserContext);
+  const { setCartItems } = useContext(CartContext);
 
   useEffect(() => {
     const navLinksSignedIn = [
@@ -14,6 +17,7 @@ export default function Navigation() {
         path: `/`,
         onClick: () => {
           setUser(null);
+          setCartItems(null);
         },
       },
       { name: `Home`, path: `/` },

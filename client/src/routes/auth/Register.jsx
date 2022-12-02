@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 import { TextBox, PrimaryButton, ErrorMessage } from "../../components";
 import useUsers from "../../hooks/useUsers";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userName, setUserName] = useState("");
   const [userAddress, setUserAddress] = useState("");
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
 
+  const { user } = useContext(UserContext);
   const { register, usersError } = useUsers();
 
   const handleFormSubmission = async (event) => {
@@ -49,6 +53,12 @@ export default function Register() {
     const enteredPhoneNumber = event.target.value;
     setUserPhoneNumber(enteredPhoneNumber);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/cart");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="grow flex flex-col pt-12 px-6 ">
