@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 import { TextBox, PrimaryButton, ErrorMessage } from "../../components";
 import useUsers from "../../hooks/useUsers";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-
+  const { user } = useContext(UserContext);
   const { login, usersError } = useUsers();
 
   const handleFormSubmission = async (event) => {
@@ -23,6 +26,12 @@ export default function Login() {
     const enteredPassword = event.target.value;
     setUserPassword(enteredPassword);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/cart");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="grow flex flex-col pt-12 px-6 ">
