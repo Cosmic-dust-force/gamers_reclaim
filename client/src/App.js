@@ -13,6 +13,8 @@ import Cart from "./routes/checkout/Cart";
 import OrderProcessedPage from "./routes/checkout/OrderProcessedPage";
 import EditProductPage from "./routes/admin/EditProductPage";
 import CreateGuest from "./routes/auth/CreateGuest";
+import CustomersList from "./routes/admin/CustomersList";
+import CustomerDetails from "./routes/admin/CustomerDetails";
 
 function App() {
   const { isLoading } = useContext(StateContext);
@@ -36,6 +38,11 @@ function App() {
           />
           <Route path="/cart" element={<Cart />} />
           <Route path="/cart/orderprocessed" element={<OrderProcessedPage />} />
+          <Route path="/admin/customers" element={<CustomersList />} />
+          <Route
+            path="/admin/customers/:customerId"
+            element={<CustomerDetails />}
+          />
         </Route>
       </Routes>
     </>

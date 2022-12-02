@@ -13,7 +13,7 @@ async function getCustomers(req, res, next) {
   try {
     const customers = await usersModel.getAllCustomers();
 
-    return res.json({ customers });
+    return res.json(customers);
   } catch (error) {
     console.error(error);
     return next(UnexpectedServerError());
