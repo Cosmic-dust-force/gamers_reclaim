@@ -28,27 +28,34 @@ export default function ProductsList({ products }) {
   };
 
   return (
-    <div className="flex justify-center mx-8 flex-wrap mt-2 pt-2 ">
-      {user && user.user.userRole === "admin" ? (
-        <LinkButton
-          value={isAddingProduct ? "Cancel" : "Add Product"}
-          clickHandler={handleAddProductClick}
-        />
-      ) : null}
-      {isAddingProduct && (
-        <CreateProductForm
-          token={user.token}
-          setIsAddingProduct={setIsAddingProduct}
-        />
-      )}
-      <CategoryFilter
-        onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
-      />
-      <main>
-        {filteredProducts.map((product) => (
-          <Product key={product.id} product={product} />
-        ))}
-      </main>
+    <div className="flex">
+      <div className="bg-white">
+        <CategoryFilter
+          onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
+        /> </div>
+      <div className="flex justify-center mx-8 flex-wrap mt-2 pt-2 flex-col">
+        {user && user.user.userRole === "admin" ? (
+          <div className="grow">
+            <LinkButton
+              value={isAddingProduct ? "Cancel" : "Add Product"}
+              clickHandler={handleAddProductClick}
+            />
+          </div>
+        ) : null}
+        {isAddingProduct && (
+          <CreateProductForm
+            token={user.token}
+            setIsAddingProduct={setIsAddingProduct}
+          />
+        )}
+
+        <main
+          className="bg-black rounded-md">
+          {filteredProducts.map((product) => (
+            <Product key={product.id} product={product} />
+          ))}
+        </main>
+      </div>
     </div>
   );
 }
