@@ -1,11 +1,14 @@
 import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { TextBox, PrimaryButton, ErrorMessage } from "../../components";
 import useUsers from "../../hooks/useUsers";
 
 export default function Register() {
   const navigate = useNavigate();
+
+  const { state } = useLocation();
+  const navToCart = state ? state.navToCart : false;
 
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -56,9 +59,13 @@ export default function Register() {
 
   useEffect(() => {
     if (user) {
-      navigate("/cart");
+      if (navToCart) {
+        navigate("/cart");
+      } else {
+        navigate("/products");
+      }
     }
-  }, [user, navigate]);
+  }, [user, navToCart, navigate]);
 
   return (
     <div className="grow flex flex-col pt-12 px-6 ">
