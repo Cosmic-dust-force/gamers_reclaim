@@ -7,16 +7,14 @@ function Header({ links = [] }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
-    <div className="flex grow basis-full items-center justify-between px-4 py-8 border-gray-400">
+    <div className="flex grow basis-full items-center justify-between px-4 py-3 mb-2">
       <a href="/">
         <img
           src={logo}
           alt="logo"
-          className="object-scale-down w-12  rounded-md"
+          className="object-scale-down h-14 w-86 rounded-md"
         />
       </a>
-      <h1 className="font-bebas text-center font-semibold text-3xl uppercase tracking-wide m-3">Gamer's Reclaim
-      </h1>
       <nav>
         <section className="flex MOBILE-MENU lg:hidden">
           <button

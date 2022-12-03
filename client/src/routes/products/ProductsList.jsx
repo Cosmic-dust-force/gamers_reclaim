@@ -29,13 +29,13 @@ export default function ProductsList({ products }) {
 
   return (
     <div className="flex">
-      <div className="bg-white">
+      <div className="bg-white mt-16">
         <CategoryFilter
           onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
         /> </div>
       <div className="flex justify-center mx-8 flex-wrap mt-2 pt-2 flex-col">
         {user && user.user.userRole === "admin" ? (
-          <div className="grow">
+          <div className="grow flex justify-end mb-4">
             <LinkButton
               value={isAddingProduct ? "Cancel" : "Add Product"}
               clickHandler={handleAddProductClick}
