@@ -1,16 +1,12 @@
 import useProducts from "../../hooks/useProducts";
 import ProductsList from "../products/ProductsList";
 
-
-
 export default function Products() {
-    const { products } = useProducts();
+  const { products } = useProducts();
 
-
-    return (
-        <div>
-        <div className="font-bebas text-center font-semibold text-3xl uppercase tracking-wide m-3"></div>
-        <ProductsList products={products}/>
-        </div>
-    )
+  return (
+    <div>
+      <ProductsList products={products} />
+    </div>
+  );
 }

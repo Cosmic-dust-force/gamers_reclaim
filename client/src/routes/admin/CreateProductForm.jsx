@@ -1,28 +1,38 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   createProduct,
   uploadProductImage,
 } from "../../axios-services/products";
-import { PrimaryButton, TextBox } from "../../components";
+import { LinkButton, PrimaryButton, TextBox } from "../../components";
 import FileUpload from "../../components/FileUpload";
+import { UserContext } from "../../context/UserContext";
 import useCategories from "../../hooks/useCategories";
 
-export default function CreateProductForm({ token, setIsAddingProduct }) {
+export default function CreateProductForm() {
+  const navigate = useNavigate();
   const { categories } = useCategories();
+  const { user } = useContext(UserContext);
 
   const [productName, setProductName] = useState("");
   const [priceUsd, setPriceUsd] = useState("");
   const [inventoryQuantity, setInventoryQuantity] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  const [categoryId, setCategoryId] = useState(null);
   const [description, setDescription] = useState("");
   const [brand, setBrand] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    setCategoryId(categories[0]?.id);
+  }, [categories]);
 
   const handleFormSubmission = async (event) => {
     event.preventDefault();
 
     createProduct(
-      token,
+      user?.token,
       productName,
       priceUsd,
       inventoryQuantity,
@@ -32,7 +42,7 @@ export default function CreateProductForm({ token, setIsAddingProduct }) {
       imageUrl
     );
 
-    setIsAddingProduct(false);
+    navigate("/products");
   };
 
   const handleProductNameChanged = (event) => {
@@ -66,8 +76,12 @@ export default function CreateProductForm({ token, setIsAddingProduct }) {
   };
 
   const handleFileUpload = async (file) => {
-    const uploadedImageUrl = await uploadProductImage(token, file);
+    const uploadedImageUrl = await uploadProductImage(user?.token, file);
     setImageUrl(uploadedImageUrl);
+  };
+
+  const handleCancelButtonClick = () => {
+    navigate("/products");
   };
 
   return (
@@ -134,6 +148,7 @@ export default function CreateProductForm({ token, setIsAddingProduct }) {
           <PrimaryButton value={"Submit"} />
         </form>
       </div>
+      <LinkButton value={"Cancel"} clickHandler={handleCancelButtonClick} />
     </div>
   );
 }
