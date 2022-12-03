@@ -3,13 +3,13 @@ import CategoryFilter from "./CategoryFilter";
 import Product from "./Product";
 import { UserContext } from "../../context/UserContext";
 import LinkButton from "../../components/LinkButton";
-import CreateProductForm from "../admin/CreateProductForm";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductsList({ products }) {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [isAddingProduct, setIsAddingProduct] = useState(false);
 
   const filteredProducts = products.filter((product) => {
     if (!selectedCategories.length) {
@@ -24,7 +24,7 @@ export default function ProductsList({ products }) {
   };
 
   const handleAddProductClick = () => {
-    setIsAddingProduct(!isAddingProduct);
+    navigate("/products/create");
   };
 
   return (
@@ -32,25 +32,19 @@ export default function ProductsList({ products }) {
       <div className="bg-white">
         <CategoryFilter
           onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
-        /> </div>
+        />{" "}
+      </div>
       <div className="flex justify-center mx-8 flex-wrap mt-2 pt-2 flex-col">
         {user && user.user.userRole === "admin" ? (
           <div className="grow">
             <LinkButton
-              value={isAddingProduct ? "Cancel" : "Add Product"}
+              value={"Add Product"}
               clickHandler={handleAddProductClick}
             />
           </div>
         ) : null}
-        {isAddingProduct && (
-          <CreateProductForm
-            token={user.token}
-            setIsAddingProduct={setIsAddingProduct}
-          />
-        )}
 
-        <main
-          className="bg-black rounded-md">
+        <main className="bg-black rounded-md">
           {filteredProducts.map((product) => (
             <Product key={product.id} product={product} />
           ))}

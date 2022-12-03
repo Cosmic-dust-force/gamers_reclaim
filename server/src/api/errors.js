@@ -5,6 +5,13 @@ function UserDoesNotExistError(email) {
   };
 }
 
+function UserAlreadyExistsError(email) {
+  return {
+    name: "UserAlreadyExistsError",
+    message: `User already exists with email ${email}`,
+  };
+}
+
 function UnexpectedServerError() {
   return { name: "UnexpectedServerError", message: "Sorry, unexpected error." };
 }
@@ -67,6 +74,7 @@ function FileIsNotImageError() {
 
 module.exports = {
   UserDoesNotExistError,
+  UserAlreadyExistsError,
   UnexpectedServerError,
   PasswordDoesNotMatchError,
   AuthenticationRequiredError,

@@ -17,6 +17,7 @@ import CustomersList from "./routes/admin/CustomersList";
 import CustomerDetails from "./routes/admin/CustomerDetails";
 import ProductsList from "./routes/products/ProductsList";
 import ProductsNav from "./routes/products/ProductsNav";
+import CreateProductForm from "./routes/admin/CreateProductForm";
 
 function App() {
   const { isLoading } = useContext(StateContext);
@@ -39,6 +40,7 @@ function App() {
               path="/products/:productId/admin"
               element={<EditProductPage />}
             />
+            <Route path="/products/create" element={<CreateProductForm />} />
           </Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/cart/orderprocessed" element={<OrderProcessedPage />} />
