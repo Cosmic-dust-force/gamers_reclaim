@@ -40,7 +40,7 @@ export default function CartItem({
         <h3 className="ml-3">{product.priceUsd}</h3>
       </div>
       <LinkButton
-        value={"Remove All Items From Cart"}
+        value={"Remove Item From Cart"}
         clickHandler={handleRemoveItemFromCart}
       />
       </div>

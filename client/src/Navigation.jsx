@@ -25,6 +25,13 @@ export default function Navigation() {
       { name: `Cart`, path: `/cart` }
     ];
 
+    if (user && user.user.userRole === "admin") {
+      navLinksSignedIn.splice(2, 1, {
+        name: `Customers`,
+        path: `/admin/customers`,
+      });
+    }
+
     const navLinksSignedOut = [
       
       { name: `Sign in`, path: `/auth` },

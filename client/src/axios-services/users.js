@@ -1,6 +1,19 @@
 import { usersController } from "./gamers-reclaim-api";
 import { handleErrors } from "./common";
 
+async function getCustomers(token) {
+  try {
+    const serverResponse = await usersController.get(``, {
+      headers: { authorization: `Bearer ${token}` },
+    });
+
+    return serverResponse.data;
+  } catch (error) {
+    console.error(error);
+    handleErrors(error);
+  }
+}
+
 async function login(email, password) {
   try {
     const serverResponse = await usersController.post(`login`, {
@@ -13,7 +26,7 @@ async function login(email, password) {
     console.error(error);
     handleErrors(error);
   }
-};
+}
 
 async function register(user) {
   try {
@@ -25,4 +38,4 @@ async function register(user) {
   }
 }
 
-export { login, register };
+export { getCustomers, login, register };
