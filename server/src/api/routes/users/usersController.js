@@ -5,6 +5,7 @@ const {
   UserDoesNotExistError,
   UnexpectedServerError,
   PasswordDoesNotMatchError,
+  UserAlreadyExistsError,
 } = require("../../errors");
 
 const { JWT_SECRET } = process.env;
@@ -52,9 +53,17 @@ async function login(req, res, next) {
 async function register(req, res, next) {
   try {
     const user = req.body;
+
     if (user.userRole !== "guest") {
       user.password = await hashPassword(user.password);
     }
+
+    const existingUserWithEmail = await usersModel.getByEmail(user.email);
+
+    if (existingUserWithEmail) {
+      return next(UserAlreadyExistsError(user.email));
+    }
+
     const newUser = await usersModel.create(user);
 
     const token = jwt.sign(

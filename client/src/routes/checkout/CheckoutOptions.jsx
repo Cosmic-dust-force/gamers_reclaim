@@ -14,21 +14,21 @@ export default function CheckoutOptions({ user, proccesOrderHandler }) {
         <LinkButton
           value={"Log in & checkout"}
           clickHandler={() => {
-            navigate("/auth");
+            navigate("/auth", { state: { navToCart: true } });
           }}
         />
 
         <LinkButton
           value={"Register & checkout"}
           clickHandler={() => {
-            navigate("/auth/register");
+            navigate("/auth/register", { state: { navToCart: true } });
           }}
         />
         <LinkButton
           value={"Checkout as guest"}
           clickHandler={() => navigate("/auth/createguest")}
         />
-        </div>
+      </div>
     );
   }
 }

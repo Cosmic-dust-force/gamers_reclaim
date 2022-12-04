@@ -11,45 +11,70 @@ export default function Navigation() {
   const { setCartItems } = useContext(CartContext);
 
   useEffect(() => {
-    const navLinksSignedIn = [
-      {
-        name: `Sign Out`,
-        path: `/`,
-        onClick: () => {
-          setUser(null);
-          setCartItems(null);
-        },
+    const PRODUCT_LINK = { name: `Products`, path: `/products` };
+    const SIGN_OUT = {
+      name: `Sign Out`,
+      path: `/`,
+      onClick: () => {
+        setUser(null);
+        setCartItems(null);
       },
-      { name: `Products`, path: `/products`},
-      { name: `About Us`, path: `/` },
-      { name: `Cart`, path: `/cart` }
+    };
+    const ABOUT_US = { name: `About Us`, path: `/` };
+
+    const navLinksSignedInUser = [
+      SIGN_OUT,
+      PRODUCT_LINK,
+      ABOUT_US,
+      { name: `Cart`, path: `/cart` },
     ];
 
-    if (user && user.user.userRole === "admin") {
-      navLinksSignedIn.splice(2, 1, {
-        name: `Customers`,
-        path: `/admin/customers`,
-      });
-    }
+    const navLinksSignedInAdmin = [
+      SIGN_OUT,
+      PRODUCT_LINK,
+      ABOUT_US,
+      { name: `Customers`, path: `/admin/customers` },
+    ];
 
     const navLinksSignedOut = [
-      
       { name: `Sign in`, path: `/auth` },
-      { name: `Products`, path: `/products`},
-      { name: `About Us`, path: `/` },
+      PRODUCT_LINK,
+      ABOUT_US,
       { name: `Cart`, path: `/cart` },
-      
     ];
 
-    const navLinks = user ? navLinksSignedIn : navLinksSignedOut;
+    function getNavigationLinksForContext(role) {
+      let navLinks = [];
+
+      switch (role) {
+        case "customer":
+          navLinks = navLinksSignedInUser;
+          break;
+
+        case "guest":
+          navLinks = navLinksSignedInUser;
+          break;
+
+        case "admin":
+          navLinks = navLinksSignedInAdmin;
+          break;
+
+        default:
+          navLinks = navLinksSignedOut;
+          break;
+      }
+
+      return navLinks;
+    }
+
+    const navLinks = getNavigationLinksForContext(user?.user.userRole);
 
     setNavLinks(navLinks);
-  }, [user]);
+  }, [user, setUser, setCartItems]);
 
   return (
     <div className="flex flex-wrap min-h-[100vh] justify-center content-start font-raj bg-white font-bold text-lg">
-      <Header 
-      links={navLinks} />
+      <Header links={navLinks} />
 
       <div className="content-area flex grow justify-center lg:max-w-8xl ">
         <Outlet />

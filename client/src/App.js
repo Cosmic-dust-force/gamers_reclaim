@@ -15,6 +15,9 @@ import EditProductPage from "./routes/admin/EditProductPage";
 import CreateGuest from "./routes/auth/CreateGuest";
 import CustomersList from "./routes/admin/CustomersList";
 import CustomerDetails from "./routes/admin/CustomerDetails";
+import ProductsList from "./routes/products/ProductsList";
+import ProductsNav from "./routes/products/ProductsNav";
+import CreateProductForm from "./routes/admin/CreateProductForm";
 
 function App() {
   const { isLoading } = useContext(StateContext);
@@ -30,12 +33,15 @@ function App() {
             <Route path="/auth/register" element={<Register />} />
             <Route path="/auth/createguest" element={<CreateGuest />} />
           </Route>
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:productId" element={<ProductDetails />} />
-          <Route
-            path="/products/:productId/admin"
-            element={<EditProductPage />}
-          />
+          <Route path="/products" element={<ProductsNav />}>
+            <Route index={true} element={<Products />} />
+            <Route path="/products/:productId" element={<ProductDetails />} />
+            <Route
+              path="/products/:productId/admin"
+              element={<EditProductPage />}
+            />
+            <Route path="/products/create" element={<CreateProductForm />} />
+          </Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/cart/orderprocessed" element={<OrderProcessedPage />} />
           <Route path="/admin/customers" element={<CustomersList />} />

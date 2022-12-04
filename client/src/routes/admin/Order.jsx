@@ -25,7 +25,7 @@ export default function Order({ customer, order }) {
       {items.map((item) => (
         <OrderItem item={item} key={item.id} />
       ))}
-      <h5 className="mt-6">{`Subtotal: ${subtotal}`}</h5>
+      <h5 className="mt-6">{`Subtotal: $${subtotal}`}</h5>
     </div>
   );
 }

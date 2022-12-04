@@ -73,7 +73,7 @@ async function create(user) {
 
   const newUser = await createUser(dbUser);
 
-  return newUser;
+  return userMapper.modelFromDb(newUser);
 }
 
 module.exports = {
