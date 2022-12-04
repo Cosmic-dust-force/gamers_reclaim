@@ -1,4 +1,4 @@
-import { useState, useContext, useCallback, useEffect } from "react";
+import { useState, useContext, useCallback } from "react";
 import { StateContext } from "../context/StateContext";
 import { UserContext } from "../context/UserContext";
 import * as usersController from "../axios-services/users";

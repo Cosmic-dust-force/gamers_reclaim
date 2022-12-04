@@ -10,7 +10,7 @@ export default function Counter({
 
   useEffect(() => {
     onCountChangedHandler(count);
-  }, [count]);
+  }, [count, onCountChangedHandler]);
 
   return (
     <div className="flex p-1 m-3 mb-4">
