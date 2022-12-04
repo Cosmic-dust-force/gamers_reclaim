@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { StateContext } from "./context/StateContext";
 import Navigation from "./Navigation";
@@ -15,7 +15,6 @@ import EditProductPage from "./routes/admin/EditProductPage";
 import CreateGuest from "./routes/auth/CreateGuest";
 import CustomersList from "./routes/admin/CustomersList";
 import CustomerDetails from "./routes/admin/CustomerDetails";
-import ProductsList from "./routes/products/ProductsList";
 import ProductsNav from "./routes/products/ProductsNav";
 import CreateProductForm from "./routes/admin/CreateProductForm";
 
