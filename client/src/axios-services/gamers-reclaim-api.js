@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:4000/api/";
+const { BASE_URL = "http://localhost:4000" } = process.env;
+const API_URL = `${BASE_URL}/api/`;
 
 export const usersController = axios.create({
   baseURL: API_URL + "users/",
