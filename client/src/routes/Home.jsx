@@ -11,6 +11,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col content-center text-lg">
+      <h1 className="text-center font-semibold text-5xl uppercase tracking-wide mt-6 mb-5">
+        ABOUT US
+      </h1>
       <p className="font-raj text-center font-semibold mt-3 mb-2">
         We believe in making gaming more accessible and afforable to all.
       </p>
