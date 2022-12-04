@@ -6,7 +6,8 @@ const {
   FileIsNotImageError,
 } = require("../../errors");
 
-const { BASE_URL = "http://localhost:4000/product_images" } = process.env;
+const { BASE_URL = "http://localhost:4000" } = process.env;
+const IMAGE_URL = `${BASE_URL}/product_images`;
 
 function createPathToImageFile(file) {
   return path.join(
@@ -96,7 +97,7 @@ async function uploadProductImage(req, res, next) {
     const imagePath = createPathToImageFile(file);
     file.mv(imagePath);
 
-    return res.json(`${BASE_URL}/${file.name}`);
+    return res.json(`${IMAGE_URL}/${file.name}`);
   } catch (error) {
     console.error(error);
     return next(UnexpectedServerError());
