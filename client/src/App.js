@@ -17,6 +17,7 @@ import CustomersList from "./routes/admin/CustomersList";
 import CustomerDetails from "./routes/admin/CustomerDetails";
 import ProductsNav from "./routes/products/ProductsNav";
 import CreateProductForm from "./routes/admin/CreateProductForm";
+import NotFoundPage from "./components/NotFoundPage";
 
 function App() {
   const { isLoading } = useContext(StateContext);
@@ -49,6 +50,7 @@ function App() {
             element={<CustomerDetails />}
           />
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
