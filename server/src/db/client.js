@@ -9,7 +9,6 @@ let client;
 
 // github actions client config
 if (process.env.CI) {
-  console.log("CI connection");
   client = new Pool({
     host: "localhost",
     port: 5432,
@@ -32,7 +31,6 @@ if (process.env.CI) {
     database: "gamers_reclaim",
   });
 } else {
-  console.log("default connection");
   client = new Pool({
     DB_URL,
     ssl:
