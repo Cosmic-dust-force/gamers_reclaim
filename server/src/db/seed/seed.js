@@ -83,7 +83,7 @@ async function runTests() {
 
 async function seed() {
   try {
-    //client.connect();
+    //await client.connect();
     console.log("Deleting tables...");
     await deleteTables();
     console.log("Creating tables...");
