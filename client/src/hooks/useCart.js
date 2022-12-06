@@ -102,8 +102,6 @@ function useCart() {
           setCartItemsError(error);
           return;
         }
-
-        refreshCart();
       } else {
         cartEditor.updateItemQuantityInPlace(
           cachedCartItems,
@@ -114,7 +112,7 @@ function useCart() {
         setCachedCartItems(cachedCartItems);
       }
     },
-    [user, cachedCartItems, setCachedCartItems, refreshCart]
+    [user, cachedCartItems, setCachedCartItems]
   );
 
   const removeItemFromCart = useCallback(
