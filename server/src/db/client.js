@@ -9,13 +9,17 @@ let client;
 
 // github actions client config
 if (process.env.CI) {
+  console.log("ci connection pool");
   client = new Pool({
+    DB_URL,
+  });
+  /*client = new Pool({
     host: "localhost",
     port: 5432,
     user: "postgres",
     password: "postgres",
     database: "postgres",
-  });
+  });*/
 } else if (process.env.KASSI) {
   /*
     Instructions for changing your db config to use pooling.
