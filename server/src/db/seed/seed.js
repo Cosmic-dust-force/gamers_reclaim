@@ -65,7 +65,7 @@ async function insertTestData() {
   console.log("Inserting test products");
   await populateProducts();
   console.log("Inserting test product reviews");
-  await populateProductReviews()
+  await populateProductReviews();
   console.log("Inserting test cart items");
   await populateFirstCustomerCart();
 }
@@ -83,7 +83,7 @@ async function runTests() {
 
 async function seed() {
   try {
-    client.connect();
+    //client.connect();
     console.log("Deleting tables...");
     await deleteTables();
     console.log("Creating tables...");

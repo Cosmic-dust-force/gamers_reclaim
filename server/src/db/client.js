@@ -9,7 +9,13 @@ let client;
 
 // github actions client config
 if (process.env.CI) {
-  client = new Pool({ DB_URL });
+  client = new Pool({
+    host: "localhost",
+    port: 5432,
+    user: "postgres",
+    password: "postgres",
+    database: "postgres",
+  });
 } else if (process.env.KASSI) {
   /*
     Instructions for changing your db config to use pooling.
@@ -25,7 +31,13 @@ if (process.env.CI) {
     database: "gamers_reclaim",
   });
 } else {
-  client = new Pool({ DB_URL });
+  client = new Pool({
+    DB_URL,
+    ssl:
+      process.env.NODE_ENV === "production"
+        ? { rejectUnauthorized: false }
+        : undefined,
+  });
 }
 
 module.exports = client;
