@@ -103,18 +103,16 @@ function useCart() {
           return;
         }
       } else {
-        const updatedItems = cartEditor.updateItemQuantity(
-          cartItems,
+        cartEditor.updateItemQuantityInPlace(
+          cachedCartItems,
           productId,
           quantity
         );
 
-        setCachedCartItems(updatedItems);
+        setCachedCartItems(cachedCartItems);
       }
-
-      refreshCart();
     },
-    [user, cartItems, setCachedCartItems, refreshCart]
+    [user, cachedCartItems, setCachedCartItems]
   );
 
   const removeItemFromCart = useCallback(
