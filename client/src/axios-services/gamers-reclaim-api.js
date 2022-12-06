@@ -1,8 +1,8 @@
 import axios from "axios";
 
-//const DEV_API_URL = "http://localhost:4000/api/";
-const API_URL = `https://gamers-reclaim.onrender.com/api/`;
-
+const DEV_API_URL = "http://localhost:4000/api/";
+//const API_URL = `https://gamers-reclaim.onrender.com/api/`;
+const API_URL = DEV_API_URL;
 export const usersController = axios.create({
   baseURL: API_URL + "users/",
 });
