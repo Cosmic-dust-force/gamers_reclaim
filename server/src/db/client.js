@@ -9,13 +9,13 @@ let client;
 
 // github actions client config
 if (process.env.CI) {
-  console.log("quah");
+  console.log("CI connection");
   client = new Pool({
-    DB_URL,
-    ssl:
-      process.env.NODE_ENV === "production"
-        ? { rejectUnauthorized: false }
-        : undefined,
+    host: "localhost",
+    port: 5432,
+    user: "postgres",
+    password: "postgres",
+    database: "postgres",
   });
 } else if (process.env.KASSI) {
   /*
@@ -32,8 +32,14 @@ if (process.env.CI) {
     database: "gamers_reclaim",
   });
 } else {
-  console.log("no me");
-  client = new Pool({ DB_URL });
+  console.log("default connection");
+  client = new Pool({
+    DB_URL,
+    ssl:
+      process.env.NODE_ENV === "production"
+        ? { rejectUnauthorized: false }
+        : undefined,
+  });
 }
 
 module.exports = client;
