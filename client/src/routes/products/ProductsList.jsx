@@ -3,6 +3,7 @@ import CategoryFilter from "./CategoryFilter";
 import Product from "./Product";
 import { UserContext } from "../../context/UserContext";
 import LinkButton from "../../components/LinkButton";
+import ProductSearchBar from "./ProductSearchBar";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductsList({ products }) {
@@ -10,8 +11,10 @@ export default function ProductsList({ products }) {
   const { user } = useContext(UserContext);
 
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [productsFilteredBySearch, setProductsFilteredBySearch] =
+    useState(products);
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = productsFilteredBySearch.filter((product) => {
     if (!selectedCategories.length) {
       return true;
     } else {
@@ -28,7 +31,7 @@ export default function ProductsList({ products }) {
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <div className="bg-white mt-16">
         <CategoryFilter
           onSelectedCategoriesChangedHandler={onSelectedCategoriesChanged}
@@ -43,11 +46,20 @@ export default function ProductsList({ products }) {
             />
           </div>
         ) : null}
+        <ProductSearchBar
+          products={products}
+          setProductsFilteredBySearch={setProductsFilteredBySearch}
+        />
 
         <main className="bg-black rounded-md">
           {filteredProducts.map((product) => (
             <Product key={product.id} product={product} />
           ))}
+          {!filteredProducts.length && (
+            <h3 className="bg-white py-3">
+              No products to display that match this criteria.
+            </h3>
+          )}
         </main>
       </div>
     </div>
