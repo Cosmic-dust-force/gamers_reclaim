@@ -102,19 +102,19 @@ function useCart() {
           setCartItemsError(error);
           return;
         }
+
+        refreshCart();
       } else {
-        const updatedItems = cartEditor.updateItemQuantity(
-          cartItems,
+        cartEditor.updateItemQuantityInPlace(
+          cachedCartItems,
           productId,
           quantity
         );
 
-        setCachedCartItems(updatedItems);
+        setCachedCartItems(cachedCartItems);
       }
-
-      refreshCart();
     },
-    [user, cartItems, setCachedCartItems, refreshCart]
+    [user, cachedCartItems, setCachedCartItems, refreshCart]
   );
 
   const removeItemFromCart = useCallback(
