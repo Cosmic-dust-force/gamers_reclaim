@@ -1,7 +1,5 @@
-// Connect to DB
-const { Client } = require("pg");
+const { Pool, Client } = require("pg");
 
-// change the DB_NAME string to whatever your group decides on
 const DB_NAME = "gamers_reclaim";
 
 const DB_URL =
@@ -11,23 +9,23 @@ let client;
 
 // github actions client config
 if (process.env.CI) {
-  client = new Client({
-    host: "localhost",
-    port: 5432,
-    user: "postgres",
-    password: "postgres",
-    database: "postgres",
-  });
+  client = new Pool({ DB_URL });
 } else if (process.env.KASSI) {
+  /*
+    Instructions for changing your db config to use pooling.
+    Copy current config object in client into Pool constructor.
+    Test that your connection still works.
+    Remove "Client" deconstruction from require statement on line 1.
+  */
   client = new Client({
     host: "localhost",
     user: "kasboyd",
     port: 5432,
     password: process.env.DB_PASSWORD,
-    database: "gamers_reclaim"
+    database: "gamers_reclaim",
   });
 } else {
-  client = new Client(DB_URL);
+  client = new Pool({ DB_URL });
 }
 
-  module.exports = client;
+module.exports = client;
