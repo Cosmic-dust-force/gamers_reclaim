@@ -31,12 +31,9 @@ if (process.env.CI) {
     database: "gamers_reclaim",
   });
 } else {
+  console.log(DB_URL);
   client = new Pool({
     DB_URL,
-    ssl:
-      process.env.NODE_ENV === "production"
-        ? { rejectUnauthorized: false }
-        : undefined,
   });
 }
 
