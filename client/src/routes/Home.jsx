@@ -86,7 +86,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-small flex justify-center mb-4 mt-4">
+      <div className="max-w-small flex justify-center mb-10 mt-4">
         <LinkButton
           value={"View Our Products"}
           clickHandler={handleNavigateToProducts}
