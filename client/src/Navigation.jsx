@@ -4,6 +4,7 @@ import { UserContext } from "./context/UserContext";
 import { CartContext } from "./context/CartContext";
 
 import Header from "./Header";
+import Footer from "./Footer";
 
 export default function Navigation() {
   const [navLinks, setNavLinks] = useState([]);
@@ -73,6 +74,7 @@ export default function Navigation() {
   }, [user, setUser, setCartItems]);
 
   return (
+    <>
     <div className="flex flex-wrap min-h-[100vh] justify-center content-start font-raj bg-white font-bold text-lg">
       <Header links={navLinks} />
 
@@ -80,5 +82,9 @@ export default function Navigation() {
         <Outlet />
       </div>
     </div>
+    <div>
+      <Footer />
+    </div>
+    </>
   );
 }

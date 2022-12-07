@@ -33,8 +33,8 @@ export default function EditProductPage() {
         <EditProductForm product={product} token={token} />
       ) : (
         <div className="flex p-2 m-2 flex-col md:flex-row">
-          <img className="" src={product.imageUrl} alt={product.productName} />
-          <div className="">
+          <img src={product.imageUrl} alt={product.productName} />
+          <div className="p-4">
             <h3 className="font-semibold mt-2 mb-2 text-2xl">
               {product.productName}
             </h3>
@@ -44,21 +44,26 @@ export default function EditProductPage() {
                 ? `In Stock - ${product.inventoryQuantity} available`
                 : "Out of Stock"}
             </h4>
-            <h4 className="">{product.description}</h4>
-            <h3 className="font-semibold mt-8 mb-1 text-2xl">
+            <h4>{product.description}</h4>
+            <h3 className="font-semibold mt-8 mb-6 text-2xl">
               {product.priceUsd}
             </h3>
+            <div className="pb-2">
             <LinkButton
               value={"Delete Product"}
               clickHandler={handleDeleteProductClick}
             />
+            </div>
+            <div>
+              <LinkButton
+                value={isEditingProduct ? "Cancel" : "Edit Product"}
+                clickHandler={handleEditProductClick}
+              />
+            </div>
           </div>
         </div>
       )}
-      <LinkButton
-        value={isEditingProduct ? "Cancel" : "Edit Product"}
-        clickHandler={handleEditProductClick}
-      />
+
     </div>
   );
 }
