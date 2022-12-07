@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const logo = require("./img/logo.png")
+const logo = require("../img/logo.png");
 
 function Header({ links = [] }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
