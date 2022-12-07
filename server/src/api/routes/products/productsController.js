@@ -16,7 +16,6 @@ function createPathToImageFile(file) {
     "..",
     "..",
     "..",
-    "public",
     "product_images",
     file.name
   );
