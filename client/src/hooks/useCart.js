@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext.jsx";
 import { CartContext } from "../context/CartContext";
 import * as cartItemsController from "../axios-services/cartItems";
 import * as ordersController from "../axios-services/orders";
-import * as cartEditor from "../cartEditor";
+import * as cartEditor from "../model/cartEditor";
 
 function useCart() {
   const [cartItems, setCartItems] = useState([]);
