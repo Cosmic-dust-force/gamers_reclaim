@@ -41,7 +41,7 @@ export default function EditProductPage() {
           <img
             src={product.imageUrl}
             alt={product.productName}
-            className="max-w-xl md:max-w-md"
+            className="max-w-xl md:max-w-md mr-5"
           />
           <div className="p-4">
             <h3 className="font-semibold mt-2 mb-2 text-2xl">

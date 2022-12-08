@@ -10,7 +10,7 @@ export default function CustomerDetails() {
   const customerOrders = orders.filter((order) => customer.id === order.userId);
 
   return (
-    <main>
+    <main className="mb-6">
       <h1 className="font-bebas font-semibold text-2xl uppercase tracking-wide mb-3">{`Customer ${customer.name}'s Profile`}</h1>
       <h3 className="my-3">{`Email: ${customer.email}`}</h3>
       <h3 className="my-3">{`Address: ${customer.address}`}</h3>
