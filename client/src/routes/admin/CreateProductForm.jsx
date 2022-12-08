@@ -85,12 +85,12 @@ export default function CreateProductForm() {
   };
 
   return (
-    <div className="grow flex flex-col pt-12 px-6 ">
+    <div className="grow flex flex-col pt-12 px-6 mb-6">
       <h2 className="pb-6 text-2xl font-semibold self-center text-gray-900 tracking-wide uppercase ">
         {"add product"}
       </h2>
-      <div className="flex flex-col items-center mb-4">
-        <h3 className="mb-2">Upload Product Image</h3>
+      <div className="flex flex-col items-start mb-6">
+        <h3 className="mb-3">Upload Product Image:</h3>
         <FileUpload onSubmitClickedHandler={handleFileUpload} />
       </div>
 
@@ -121,7 +121,11 @@ export default function CreateProductForm() {
           />
 
           <label>Select Category:</label>
-          <select onChange={handleCategoryIdChanged} required={true}>
+          <select
+            onChange={handleCategoryIdChanged}
+            required={true}
+            className="p-2 border-2 border-gray-700 rounded-md bg-gray-100 text-sm font-semibold text-gray-900"
+          >
             {categories.map((category) => {
               return (
                 <React.Fragment key={category.id}>
@@ -136,6 +140,7 @@ export default function CreateProductForm() {
             placeholder={"Product Description"}
             value={description}
             required={true}
+            className="p-3 border-2 border-gray-700 rounded-md bg-gray-100 text-sm font-semibold text-gray-900"
           />
 
           <TextBox

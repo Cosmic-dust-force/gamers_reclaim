@@ -30,10 +30,19 @@ export default function EditProductPage() {
   return (
     <div className="flex flex-col">
       {isEditingProduct ? (
-        <EditProductForm product={product} token={token} />
+        <EditProductForm
+          product={product}
+          token={token}
+          isEditingProduct={isEditingProduct}
+          setIsEditingProduct={setIsEditingProduct}
+        />
       ) : (
         <div className="flex p-2 m-2 flex-col md:flex-row">
-          <img src={product.imageUrl} alt={product.productName} />
+          <img
+            src={product.imageUrl}
+            alt={product.productName}
+            className="max-w-xl md:max-w-md"
+          />
           <div className="p-4">
             <h3 className="font-semibold mt-2 mb-2 text-2xl">
               {product.productName}
@@ -49,21 +58,20 @@ export default function EditProductPage() {
               {product.priceUsd}
             </h3>
             <div className="pb-2">
-            <LinkButton
-              value={"Delete Product"}
-              clickHandler={handleDeleteProductClick}
-            />
+              <LinkButton
+                value={"Delete Product"}
+                clickHandler={handleDeleteProductClick}
+              />
             </div>
             <div>
               <LinkButton
-                value={isEditingProduct ? "Cancel" : "Edit Product"}
+                value={"Edit Product"}
                 clickHandler={handleEditProductClick}
               />
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 }
