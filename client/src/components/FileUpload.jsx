@@ -22,7 +22,12 @@ export default function FileUpload({ onSubmitClickedHandler }) {
         onChange={onFileChanged}
         required={true}
       />
-      <button type="submit">Upload</button>
+      <button
+        type="submit"
+        className="px-1 border-2 border-gray-700 rounded-md bg-gray-100"
+      >
+        Upload
+      </button>
     </form>
   );
 }

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { editProduct } from "../../axios-services/products";
-import { PrimaryButton, TextBox } from "../../components";
+import { LinkButton, PrimaryButton, TextBox } from "../../components";
 import useCategories from "../../hooks/useCategories";
 
-export default function EditProductForm({ product, token }) {
+export default function EditProductForm({
+  product,
+  token,
+  isEditingProduct,
+  setIsEditingProduct,
+}) {
   const navigate = useNavigate();
   const { categories } = useCategories();
 
@@ -20,6 +25,10 @@ export default function EditProductForm({ product, token }) {
     product.description
   );
   const [editedBrand, setEditedBrand] = useState(product.brand);
+
+  const handleCancelClick = () => {
+    setIsEditingProduct(!isEditingProduct);
+  };
 
   const handleFormSubmission = async (event) => {
     event.preventDefault();
@@ -68,7 +77,7 @@ export default function EditProductForm({ product, token }) {
   };
 
   return (
-    <div className="grow flex flex-col pt-12 px-6 ">
+    <div className="grow flex flex-col pt-12 px-6 mb-6">
       <h2 className="pb-6 text-2xl font-semibold self-center text-gray-900 tracking-wide uppercase ">
         {"edit product"}
       </h2>
@@ -115,6 +124,7 @@ export default function EditProductForm({ product, token }) {
             onChange={handleDescriptionChanged}
             placeholder={product.description}
             value={editedDescription}
+            className="p-3 border-2 border-gray-700 rounded-md bg-gray-100 text-sm font-semibold text-gray-900"
           />
 
           <label>Brand:</label>
@@ -125,6 +135,7 @@ export default function EditProductForm({ product, token }) {
           />
 
           <PrimaryButton value={"Submit Changes"} />
+          <LinkButton value={"Cancel"} clickHandler={handleCancelClick} />
         </form>
       </div>
     </div>
